@@ -1,0 +1,9 @@
+website/
+research/
+Screenshots/
+tmp/
+node_modules/
+.DS_Store
+*.md
+!README.md
+flossy-template_webflow_io.html
