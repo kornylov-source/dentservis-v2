@@ -1,0 +1,842 @@
+/* Кастомные секции, которых не было в Webflow Flossy шаблоне.
+   Подключается в layout.tsx после трёх Webflow CSS — порядок важен. */
+
+/* ========== ЛОГОТИП БРЕНДА ========== */
+.brand-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* В шапке: ограничиваем по высоте, ширина авто (не обрезается) */
+.brand-logo-header {
+  height: 64px;
+  max-height: 64px;
+  width: auto;
+  max-width: none;
+}
+
+/* Wrapper родителя — пусть растягивается под лого, без overflow */
+.header-logo-wrapper {
+  overflow: visible !important;
+  width: auto !important;
+  flex-shrink: 0;
+}
+
+/* В футере фон тёмно-синий → лого голубое читается, но добавляем чуть белой подложки */
+.brand-logo-footer {
+  height: 72px;
+  max-height: 72px;
+  width: auto;
+  max-width: none;
+  background: #ffffff;
+  padding: 10px 16px;
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .brand-logo-header {
+    height: 44px;
+    max-height: 44px;
+  }
+  .brand-logo-footer {
+    height: 56px;
+    max-height: 56px;
+    padding: 8px 12px;
+  }
+}
+
+
+/* ========== HERO: только фото команды по центру (CTA-боксы удалены из HTML) ========== */
+/* Webflow задаёт grid 1fr 1fr 1fr (3 колонки для cta + image + cta) — переопределяем
+   на 1 колонку, чтобы единственное фото центрировалось и занимало всю ширину */
+.hero-section-image-column {
+  grid-template-columns: 1fr !important;
+  grid-auto-columns: 1fr !important;
+  justify-items: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.hero-section-image-column .hero-image {
+  max-width: 720px !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hero-section-image-column .hero-image {
+    max-width: 100% !important;
+  }
+}
+
+
+/* ========== TRUST BAR ========== */
+.trust-bar-section {
+  background: #f9fafb;
+  padding: 56px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.trust-bar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.trust-number {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 44px;
+  font-weight: 800;
+  color: #3083FF;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.trust-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #595959;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .trust-bar-section {
+    padding: 40px 0;
+  }
+  .trust-bar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .trust-number {
+    font-size: 32px;
+  }
+  .trust-label {
+    font-size: 13px;
+  }
+}
+
+/* ========== DOCTORS CAROUSEL ========== */
+.doctors-slider .w-slide {
+  padding: 0 12px;
+}
+
+.doctor-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  height: 100%;
+}
+
+.doctor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(20, 55, 107, 0.12);
+  border-color: #3083FF;
+}
+
+.doctor-card-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #f9fafb;
+}
+
+.doctor-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.doctor-card:hover .doctor-card-image {
+  transform: scale(1.05);
+}
+
+.doctor-card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.doctor-card-content .heading-5 {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #14376B;
+  line-height: 1.3;
+}
+
+.doctor-card-specialty {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3083FF;
+  margin: 0;
+}
+
+.doctor-card-experience {
+  font-size: 13px;
+  color: #595959;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .doctor-card-content {
+    padding: 16px;
+  }
+  .doctor-card-content .heading-5 {
+    font-size: 16px;
+  }
+}
+
+/* ========== BLOG CAROUSEL ========== */
+.blog-slider .w-slide {
+  padding: 0 12px;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  height: 100%;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(20, 55, 107, 0.12);
+  border-color: #3083FF;
+}
+
+.blog-card-image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #f9fafb;
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.blog-card:hover .blog-card-image {
+  transform: scale(1.05);
+}
+
+.blog-card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.blog-card-category {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #3083FF;
+}
+
+.blog-card-content .heading-5 {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #14376B;
+  line-height: 1.3;
+}
+
+.blog-card-excerpt {
+  font-size: 14px;
+  color: #595959;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .blog-card-content {
+    padding: 16px;
+  }
+}
+
+/* ========== TESTIMONIALS-CLEAN — секция-заголовок и слайдер ==========
+   Структура: .testimonials-clean-section > .container > заголовок + .w-slider
+   Используем оригинальные .testimonial-box-version-one из Webflow CSS — стилизация уже есть.
+   Слайдер ведёт себя как у докторов (whyus-slider): стрелочки + клавиатура,
+   data-autoplay="false" — без авто-прокрутки. */
+
+.testimonials-clean-section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.testimonials-clean-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+/* В оригинале divider в карточке прозрачный — ставим тонкую серую линию */
+.testimonial-box-version-one .divider {
+  height: 1px;
+  width: 100%;
+  background: #e5e7eb;
+  margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .testimonials-clean-section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .testimonials-clean-header {
+    margin-bottom: 32px;
+  }
+}
+
+/* ========== HEADER LAYOUT FIX ==========
+   Лого "Дент-Сервіс" шире чем оригинальный Flossy SVG —
+   из-за этого меню сдвигалось влево. Делаем три равных колонки:
+   логотип (left) — навигация (center) — CTA (right). */
+.header-section-contents {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-section-contents .header-logo-wrapper {
+  justify-self: start;
+}
+
+.header-section-contents .header-navigations-wrapper {
+  justify-self: center;
+}
+
+.header-section-contents .header-cta-wrapper {
+  justify-self: end;
+}
+
+@media (max-width: 991px) {
+  .header-section-contents {
+    display: flex !important;
+  }
+}
+
+/* CSS-fallback для opacity не нужен — JS WebflowInit делает forceVisible
+   через 2с, в т.ч. сбрасывая transform-translate (иначе текст застревает
+   "сдвинутым вниз" из-за стартового состояния Webflow-анимации). */
+
+/* ========== /likari — DOCTORS PAGE GRID ========== */
+.doctors-page-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .doctors-page-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .doctors-page-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+/* ========== /likari/[slug] — DOCTOR DETAIL PAGE (Flossy layout) ========== */
+.doctor-detail-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 1.25rem;
+  display: block;
+}
+
+.doctor-training-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.doctor-training-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: #2C2C2C;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.doctor-training-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3083FF;
+}
+
+.doctor-quote-block {
+  background: #F1F5FB;
+  border-left: 3px solid #3083FF;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  width: 100%;
+}
+
+.doctor-quote-block p {
+  font-style: italic;
+  color: #14376B;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ========== /kontakty — CONTACT PAGE ========== */
+a.contactus-box {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+a.contactus-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(20, 55, 107, 0.1);
+  border-color: #3083FF;
+}
+
+.contact-map-section {
+  margin-bottom: 5rem;
+}
+
+.contact-map-wrapper {
+  width: 100%;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.contact-map-wrapper iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+@media (max-width: 600px) {
+  .contact-map-section {
+    margin-bottom: 3rem;
+  }
+  .contact-map-wrapper iframe {
+    height: 360px;
+  }
+}
+
+/* Webflow CSS забивает .select в чёрный цвет (правило для не-en). Перебиваем. */
+.contact-form .select,
+.doctor-contact-form .select,
+select.select.w-select {
+  background-color: #fff !important;
+  color: #2C2C2C !important;
+}
+
+/* ========== /pro-nas — ABOUT PAGE ========== */
+/* На /pro-nas в hero 4 опции (2x2) - текст длиннее чем фото в шаблоне.
+   Растягиваем фото на всю высоту колонки и обрезаем по cover. */
+.about-page-hero .aboutus-image-column {
+  align-self: stretch;
+}
+
+.about-page-hero .aboutus-image-column img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1.25rem;
+}
+
+.about-protocol-section,
+.about-standards-section,
+.about-history-section {
+  padding: 4rem 1rem;
+}
+
+@media (max-width: 600px) {
+  .about-protocol-section,
+  .about-standards-section,
+  .about-history-section {
+    padding: 2.5rem 1rem;
+  }
+}
+
+/* --- Цифровий протокол --- */
+.protocol-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+@media (max-width: 768px) {
+  .protocol-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.protocol-step-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1.25rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.protocol-step-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(20, 55, 107, 0.08);
+  border-color: #3083FF;
+}
+
+.protocol-step-number {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #3083FF;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.protocol-step-card .heading-5 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #14376B;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.protocol-step-card p {
+  color: #2C2C2C;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.protocol-step-benefit {
+  background: #F1F5FB;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #14376B;
+  margin-top: auto;
+}
+
+.protocol-step-benefit strong {
+  color: #3083FF;
+  font-weight: 600;
+}
+
+/* --- Стандарти --- */
+.standards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+@media (max-width: 991px) {
+  .standards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .standards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.standard-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.standard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(20, 55, 107, 0.06);
+}
+
+.standard-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 0.75rem;
+  background: #F1F5FB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.standard-card .heading-5 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #14376B;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.standard-card p {
+  color: #2C2C2C;
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* --- Історія --- */
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 3rem;
+  position: relative;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.history-timeline::before {
+  content: "";
+  position: absolute;
+  left: 100px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #3083FF 0%, rgba(48, 131, 255, 0.2) 100%);
+}
+
+.history-item {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  position: relative;
+  align-items: start;
+}
+
+.history-item::before {
+  content: "";
+  position: absolute;
+  left: 92px;
+  top: 2rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #3083FF;
+  border: 4px solid #fff;
+  box-shadow: 0 0 0 2px #3083FF;
+  z-index: 1;
+}
+
+.history-year {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #3083FF;
+  line-height: 1.2;
+  text-align: right;
+  padding-right: 1.5rem;
+  padding-top: 0.25rem;
+}
+
+.history-content {
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-content .heading-5 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #14376B;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.history-content p {
+  color: #2C2C2C;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .history-timeline::before {
+    left: 12px;
+  }
+  .history-item {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding-left: 40px;
+  }
+  .history-item::before {
+    left: 4px;
+    top: 1.75rem;
+  }
+  .history-year {
+    text-align: left;
+    padding-right: 0;
+    font-size: 22px;
+  }
+  .history-content {
+    padding-left: 0;
+  }
+}
+
+/* ========== /faq — FAQ PAGE ========== */
+.faq-page-section {
+  padding: 0 1rem 5rem;
+}
+
+.faq-group {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto 4rem;
+}
+
+.faq-group:last-child {
+  margin-bottom: 0;
+}
+
+.faq-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid #e5e7eb;
+  text-align: center;
+}
+
+.faq-group-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 0.875rem;
+  background: linear-gradient(135deg, #3083FF 0%, #5B9DFF 100%);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.faq-group-header h2 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #14376B;
+}
+
+/* Аккордеоны — на всю ширину контейнера */
+.faq-page-section .accordions {
+  width: 100%;
+}
+
+.faq-page-section .accordion {
+  width: 100%;
+}
+
+.faq-page-section .faq-dropdown {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .faq-group {
+    margin-bottom: 3rem;
+  }
+  .faq-group-header {
+    gap: 0.875rem;
+    margin-bottom: 1.5rem;
+    flex-direction: column;
+  }
+  .faq-group-badge {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    border-radius: 0.75rem;
+  }
+  .faq-group-header h2 {
+    font-size: 22px;
+  }
+  .faq-page-section {
+    padding: 0 1rem 3rem;
+  }
+}
+

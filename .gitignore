@@ -7,3 +7,20 @@ node_modules/
 *.md
 !README.md
 flossy-template_webflow_io.html
+.vercel
+.next/
+
+# Source materials & client assets (not part of the website code)
+Assets/
+flossy-source/
+*.png
+*.JPG
+*.jpg
+*.webp
+*.zip
+*.html
+!site/lib/snippets/*.html
+!site/flossy-template/index.html
+
+# Standalone proposal docs
+proposal-dentservis.html
