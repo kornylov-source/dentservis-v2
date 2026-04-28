@@ -815,6 +815,16 @@ select.select.w-select {
 
 .faq-page-section .faq-dropdown {
   width: 100%;
+  cursor: pointer;
+}
+
+/* Переключение иконок + / − при відкритому стані аккордеона */
+.accordion.w--open .icon.open {
+  display: none !important;
+}
+
+.accordion.w--open .icon.close {
+  display: flex !important;
 }
 
 @media (max-width: 600px) {

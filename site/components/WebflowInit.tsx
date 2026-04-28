@@ -40,6 +40,56 @@ export default function WebflowInit() {
       });
     };
 
+    // Свой обработчик аккордеона. Webflow-dropdown по дизайну — это меню,
+    // не аккордеон: после destroy/ready он перестаёт реагировать на клики.
+    // Поэтому навешиваем простой toggle сами.
+    const initAccordions = () => {
+      const accordions = document.querySelectorAll<HTMLElement>(
+        ".accordion.w-dropdown"
+      );
+      accordions.forEach((acc) => {
+        if (acc.dataset.accordionInited === "1") return;
+        acc.dataset.accordionInited = "1";
+
+        const toggle = acc.querySelector<HTMLElement>(".w-dropdown-toggle");
+        const list = acc.querySelector<HTMLElement>(".w-dropdown-list");
+        if (!toggle || !list) return;
+
+        // Подготавливаем стиль для плавного открытия
+        list.style.height = "0px";
+        list.style.overflow = "hidden";
+        list.style.transition = "height 0.25s ease";
+
+        toggle.addEventListener("click", () => {
+          const isOpen = acc.classList.contains("w--open");
+          if (isOpen) {
+            list.style.height = list.scrollHeight + "px";
+            requestAnimationFrame(() => {
+              list.style.height = "0px";
+            });
+            acc.classList.remove("w--open");
+            toggle.classList.remove("w--open");
+            toggle.setAttribute("aria-expanded", "false");
+          } else {
+            list.style.height = list.scrollHeight + "px";
+            acc.classList.add("w--open");
+            toggle.classList.add("w--open");
+            toggle.setAttribute("aria-expanded", "true");
+            // После анимации убираем фиксированную высоту, чтобы контент адаптировался
+            list.addEventListener(
+              "transitionend",
+              function onEnd() {
+                if (acc.classList.contains("w--open")) {
+                  list.style.height = "auto";
+                }
+                list.removeEventListener("transitionend", onEnd);
+              }
+            );
+          }
+        });
+      });
+    };
+
     const tryInit = () => {
       attempts += 1;
       const wf = (typeof window !== "undefined" ? window.Webflow : undefined) as
@@ -51,6 +101,7 @@ export default function WebflowInit() {
           setTimeout(tryInit, 200);
         } else {
           forceVisible();
+          initAccordions();
         }
         return;
       }
@@ -68,12 +119,16 @@ export default function WebflowInit() {
           window.dispatchEvent(new Event("resize"));
         });
 
+        // Свои аккордеоны — сразу после ready, чтобы клик работал в любом случае
+        initAccordions();
+
         // Подстраховка: через 2с проверяем, не остались ли элементы в стартовом
         // состоянии (transform translate с ненулевым Y). Если да — форсим reveal.
         setTimeout(forceVisible, 2000);
       } catch (e) {
         console.warn("Webflow re-init failed:", e);
         forceVisible();
+        initAccordions();
       }
     };
 
