@@ -827,6 +827,14 @@ select.select.w-select {
   display: flex !important;
 }
 
+/* Webflow .heading-5 капіталізує кожне слово — у FAQ-питаннях це робить
+   "Що Таке Цифровий Протокол" замість нормального "Що таке цифровий протокол".
+   Скасовуємо. */
+.faq-page-section .faq-dropdown .heading-5,
+.faq-section .faq-dropdown .heading-5 {
+  text-transform: none;
+}
+
 @media (max-width: 600px) {
   .faq-group {
     margin-bottom: 3rem;
