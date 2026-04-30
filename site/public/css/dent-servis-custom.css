@@ -1802,22 +1802,30 @@ select.select.w-select {
 }
 
 .mobile-menu {
-  display: none;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 100%;
   left: 0;
   right: 0;
-  bottom: 0;
   z-index: 100000;
   background: #ffffff;
-  padding: 88px 24px 32px;
+  padding: 16px 24px 24px;
+  display: flex;
   flex-direction: column;
   gap: 4px;
+  max-height: calc(100vh - 100%);
   overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid #E5E7EB;
+  transform: translateY(-110%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease, opacity 0.25s ease, visibility 0.3s;
 }
 
 .mobile-menu[aria-hidden="false"] {
-  display: flex;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .mobile-menu-link {
@@ -1849,9 +1857,7 @@ select.select.w-select {
   text-decoration: none;
 }
 
-body.mobile-menu-open {
-  overflow: hidden;
-}
+/* body.mobile-menu-open: для dropdown-меню overflow lock не потрібен */
 
 @media screen and (max-width: 991px) {
   .mobile-menu-toggle {
