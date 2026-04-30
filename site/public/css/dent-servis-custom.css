@@ -1861,5 +1861,12 @@ body.mobile-menu-open {
   .header-section .header-cta-wrapper {
     display: none;
   }
+  /* Sticky header на мобиле — чтобы бургер всегда под рукой */
+  .header-section {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    z-index: 50;
+  }
 }
 
