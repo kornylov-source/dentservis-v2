@@ -22,5 +22,12 @@ flossy-source/
 !site/lib/snippets/*.html
 !site/flossy-template/index.html
 
+# Public site assets must be tracked (images, icons, favicons, etc.)
+!site/public/**/*.png
+!site/public/**/*.jpg
+!site/public/**/*.JPG
+!site/public/**/*.webp
+!site/public/**/*.svg
+
 # Standalone proposal docs
 proposal-dentservis.html
