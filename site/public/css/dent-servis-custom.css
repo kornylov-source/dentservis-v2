@@ -466,6 +466,19 @@ a.contactus-box:hover {
   border-color: #3083FF;
 }
 
+/* Webflow-шаблон скрывает .contactus-wrapper на мобильных (max-width:767px),
+   так как в оригинале телефон/email/адрес дублировались в другом блоке.
+   У нас этого дубликата нет — возвращаем боксы. */
+@media screen and (max-width: 767px) {
+  .contactus-wrapper {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+}
+
 .contact-map-section {
   margin-bottom: 5rem;
 }
@@ -1748,5 +1761,105 @@ select.select.w-select {
 .blog-section .blog-slider .left-arrow,
 .blog-section .blog-slider .right-arrow {
   display: none !important;
+}
+
+/* ========== МОБИЛЬНОЕ МЕНЮ (burger) ========== */
+.mobile-menu-toggle {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin-left: auto;
+  margin-right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.mobile-menu-toggle-bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #2C2C2C;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+.mobile-menu-toggle[aria-expanded="true"] .mobile-menu-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-toggle[aria-expanded="true"] .mobile-menu-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle[aria-expanded="true"] .mobile-menu-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: #ffffff;
+  padding: 88px 24px 32px;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.mobile-menu[aria-hidden="false"] {
+  display: flex;
+}
+
+.mobile-menu-link {
+  display: block;
+  padding: 16px 8px;
+  color: #2C2C2C;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid #E5E7EB;
+  transition: color 0.2s ease;
+}
+
+.mobile-menu-link:hover,
+.mobile-menu-link:active {
+  color: var(--blue);
+}
+
+.mobile-menu-phone {
+  display: block;
+  margin-top: 24px;
+  padding: 14px 24px;
+  text-align: center;
+  background: var(--blue);
+  color: #ffffff !important;
+  border-radius: 999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body.mobile-menu-open {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 991px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  /* Прячем CTA "Записатись" из header на мобиле — есть телефон в меню */
+  .header-section .header-cta-wrapper {
+    display: none;
+  }
 }
 

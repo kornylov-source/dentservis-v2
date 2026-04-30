@@ -40,6 +40,35 @@ export default function WebflowInit() {
       });
     };
 
+    // Мобильное меню — открытие/закрытие по клику на бургер
+    const initMobileMenu = () => {
+      const toggle = document.querySelector<HTMLButtonElement>(".mobile-menu-toggle");
+      const menu = document.querySelector<HTMLElement>("#mobile-menu");
+      if (!toggle || !menu || toggle.dataset.inited === "1") return;
+      toggle.dataset.inited = "1";
+
+      const setOpen = (open: boolean) => {
+        toggle.setAttribute("aria-expanded", String(open));
+        menu.setAttribute("aria-hidden", String(!open));
+        toggle.setAttribute("aria-label", open ? "Закрити меню" : "Відкрити меню");
+        document.body.classList.toggle("mobile-menu-open", open);
+      };
+
+      toggle.addEventListener("click", () => {
+        setOpen(toggle.getAttribute("aria-expanded") !== "true");
+      });
+
+      menu.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+        link.addEventListener("click", () => setOpen(false));
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+          setOpen(false);
+        }
+      });
+    };
+
     // Свой обработчик аккордеона. Webflow-dropdown по дизайну — это меню,
     // не аккордеон: после destroy/ready он перестаёт реагировать на клики.
     // Поэтому навешиваем простой toggle сами.
@@ -102,6 +131,7 @@ export default function WebflowInit() {
         } else {
           forceVisible();
           initAccordions();
+          initMobileMenu();
         }
         return;
       }
@@ -121,6 +151,7 @@ export default function WebflowInit() {
 
         // Свои аккордеоны — сразу после ready, чтобы клик работал в любом случае
         initAccordions();
+        initMobileMenu();
 
         // Подстраховка: через 2с проверяем, не остались ли элементы в стартовом
         // состоянии (transform translate с ненулевым Y). Если да — форсим reveal.
@@ -129,6 +160,7 @@ export default function WebflowInit() {
         console.warn("Webflow re-init failed:", e);
         forceVisible();
         initAccordions();
+        initMobileMenu();
       }
     };
 
