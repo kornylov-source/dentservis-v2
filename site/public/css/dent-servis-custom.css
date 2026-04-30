@@ -1882,3 +1882,18 @@ select.select.w-select {
   }
 }
 
+/* ========== ОТКЛЮЧЕНИЕ ДЁРГАЮЩИХСЯ WEBFLOW-АНИМАЦИЙ ========== */
+/* Секции "Послуги" і "Про нас" на головній — анімації on-scroll занадто
+   нервні. Робимо елементи видимими одразу, без translate/opacity-ефектів.
+   Кнопки/hover усередині — Webflow IX2 на них продовжує працювати. */
+.services-section .services-box,
+.services-section .service-description,
+.services-section .services-image,
+.aboutus-section .aboutus-contents-wrapper,
+.aboutus-section .aboutus-grid,
+.aboutus-section .aboutus-option-wrapper,
+.aboutus-section h2,
+.aboutus-section .paragraph-no-margin {
+  opacity: 1 !important;
+  transform: none !important;
+}
