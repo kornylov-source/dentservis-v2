@@ -1715,3 +1715,38 @@ select.select.w-select {
   }
 }
 
+/* Глобальний hover для .primary-button (без залежності від Webflow IX2).
+   main-contents їде вгору, hover-bg (чорний фон) виїжджає знизу. */
+.primary-button .primary-button-main-contents,
+.primary-button .primary-button-hover-bg {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.primary-button:hover .primary-button-main-contents {
+  transform: translate3d(0, -104%, 0) !important;
+}
+
+.primary-button:hover .primary-button-hover-bg {
+  transform: translate3d(0, 0%, 0) !important;
+}
+
+/* Те саме для secondary-button */
+.secondary-button .secondary-button-main-contents,
+.secondary-button .secondary-button-hover-bg {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.secondary-button:hover .secondary-button-main-contents {
+  transform: translate3d(0, -104%, 0) !important;
+}
+
+.secondary-button:hover .secondary-button-hover-bg {
+  transform: translate3d(0, 0%, 0) !important;
+}
+
+/* Сховати стрілки прокрутки в каруселі блогу на головній */
+.blog-section .blog-slider .left-arrow,
+.blog-section .blog-slider .right-arrow {
+  display: none !important;
+}
+
