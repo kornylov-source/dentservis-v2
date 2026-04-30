@@ -40,6 +40,49 @@ export default function WebflowInit() {
       });
     };
 
+    // Hide-on-scroll-down / show-on-scroll-up для sticky header на мобиле
+    const initScrollHeader = () => {
+      const header = document.querySelector<HTMLElement>(".header-section");
+      if (!header || header.dataset.scrollInited === "1") return;
+      header.dataset.scrollInited = "1";
+
+      let lastY = window.scrollY;
+      let ticking = false;
+      const threshold = 8; // игнорим микро-движения, чтобы хедер не дёргался
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const dy = y - lastY;
+
+          // Не прячем когда mobile-menu открыт (он перекрывает хедер фуллскрином,
+          // но если переключим класс — после закрытия меню хедер может остаться скрыт)
+          const menuOpen = document.body.classList.contains("mobile-menu-open");
+
+          if (!menuOpen && Math.abs(dy) > threshold) {
+            if (dy > 0 && y > 80) {
+              // Скроллим вниз — прячем
+              header.classList.add("header-hidden");
+            } else if (dy < 0) {
+              // Скроллим вверх — показываем
+              header.classList.remove("header-hidden");
+            }
+            lastY = y;
+          } else if (y <= 80) {
+            // У самого верха страницы — всегда показан
+            header.classList.remove("header-hidden");
+            lastY = y;
+          }
+
+          ticking = false;
+        });
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+    };
+
     // Мобильное меню — открытие/закрытие по клику на бургер
     const initMobileMenu = () => {
       const toggle = document.querySelector<HTMLButtonElement>(".mobile-menu-toggle");
@@ -132,6 +175,7 @@ export default function WebflowInit() {
           forceVisible();
           initAccordions();
           initMobileMenu();
+          initScrollHeader();
         }
         return;
       }
@@ -152,6 +196,7 @@ export default function WebflowInit() {
         // Свои аккордеоны — сразу после ready, чтобы клик работал в любом случае
         initAccordions();
         initMobileMenu();
+        initScrollHeader();
 
         // Подстраховка: через 2с проверяем, не остались ли элементы в стартовом
         // состоянии (transform translate с ненулевым Y). Если да — форсим reveal.

@@ -1867,6 +1867,12 @@ body.mobile-menu-open {
     top: 0;
     background: #ffffff;
     z-index: 50;
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+  /* Скрытие при скролле вниз — хедер уезжает вверх */
+  .header-section.header-hidden {
+    transform: translateY(-100%);
   }
 }
 
