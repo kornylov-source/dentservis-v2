@@ -3,7 +3,7 @@ import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 
 export const metadata: Metadata = {
-  title: "Контакти — Дент-Сервіс | Дніпро",
+  title: "Контакти — Дентсервіс | Дніпро",
   description:
     "Адреса: м. Дніпро, ж/м Тополя 1, буд. 15, кор. 5. Телефон: (050) 593-55-49. Графік роботи: ПН-ПТ 9:00-19:00, СБ 9:00-14:00. Записатись на консультацію.",
 };

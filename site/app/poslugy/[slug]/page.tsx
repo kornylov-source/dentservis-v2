@@ -18,11 +18,11 @@ export async function generateMetadata({
   const service = getServiceBySlug(slug);
 
   if (!service || service.hidden) {
-    return { title: "Послугу не знайдено — Дент-Сервіс" };
+    return { title: "Послугу не знайдено — Дентсервіс" };
   }
 
   return {
-    title: `${service.name} у Дніпрі — Дент-Сервіс`,
+    title: `${service.name} у Дніпрі — Дентсервіс`,
     description: service.short,
   };
 }

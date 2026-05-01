@@ -18,7 +18,7 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
 
   if (!post) {
-    return { title: "Статтю не знайдено — Дент-Сервіс" };
+    return { title: "Статтю не знайдено — Дентсервіс" };
   }
 
   const url = `https://dent-servis.com.ua/blog/${post.slug}`;

@@ -18,11 +18,11 @@ export async function generateMetadata({
   const doctor = getDoctor(slug);
 
   if (!doctor) {
-    return { title: "Лікар не знайдений — Дент-Сервіс" };
+    return { title: "Лікар не знайдений — Дентсервіс" };
   }
 
   return {
-    title: `${doctor.fullName} — ${doctor.position} | Дент-Сервіс`,
+    title: `${doctor.fullName} — ${doctor.position} | Дентсервіс`,
     description: `${doctor.fullName} — ${doctor.position}. ${doctor.experience}. Запис на прийом у Дніпрі.`,
   };
 }

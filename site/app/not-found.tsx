@@ -3,9 +3,9 @@ import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 
 export const metadata: Metadata = {
-  title: "Сторінку не знайдено — Дент-Сервіс",
+  title: "Сторінку не знайдено — Дентсервіс",
   description:
-    "Сторінку не знайдено. Поверніться на головну Дент-Сервіс або відкрийте розділи послуг, лікарів і контактів.",
+    "Сторінку не знайдено. Поверніться на головну Дентсервіс або відкрийте розділи послуг, лікарів і контактів.",
   robots: { index: false, follow: false },
 };
 

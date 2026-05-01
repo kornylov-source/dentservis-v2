@@ -23,17 +23,17 @@ export async function generateMetadata({
   const cat = CATEGORY_META[slug as BlogCategory];
 
   if (!cat) {
-    return { title: "Категорію не знайдено — Дент-Сервіс" };
+    return { title: "Категорію не знайдено — Дентсервіс" };
   }
 
   const url = `https://dent-servis.com.ua/blog/category/${slug}`;
 
   return {
-    title: `${cat.name} — статті блогу Дент-Сервіс | Дніпро`,
+    title: `${cat.name} — статті блогу Дентсервіс | Дніпро`,
     description: cat.description,
     alternates: { canonical: url },
     openGraph: {
-      title: `${cat.name} — блог Дент-Сервіс`,
+      title: `${cat.name} — блог Дентсервіс`,
       description: cat.description,
       url,
       type: "website",

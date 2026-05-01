@@ -36,7 +36,7 @@ export default function BlogPost({ post }: Props) {
       : undefined,
     publisher: {
       "@type": "Organization",
-      name: "Дент-Сервіс",
+      name: "Дентсервіс",
       logo: {
         "@type": "ImageObject",
         url: "https://dent-servis.com.ua/images/logo.png",

@@ -4,7 +4,7 @@ import WebflowInit from "@/components/WebflowInit";
 import ServicesCatalog from "@/components/sections/ServicesCatalog";
 
 export const metadata: Metadata = {
-  title: "Послуги — Дент-Сервіс | Дніпро",
+  title: "Послуги — Дентсервіс | Дніпро",
   description:
     "Повний спектр стоматологічних послуг у Дніпрі: імплантація, ортопедія, хірургія, терапія, пародонтологія, естетична стоматологія, гігієна. Цифровий протокол, гарантія.",
 };

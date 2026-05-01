@@ -3,9 +3,9 @@ import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 
 export const metadata: Metadata = {
-  title: "Наші лікарі — Дент-Сервіс | Дніпро",
+  title: "Наші лікарі — Дентсервіс | Дніпро",
   description:
-    "6 досвідчених стоматологів у Дніпрі: імплантологи, ортопеди, пародонтологи, ендодонти. 30+ років практики у клініки Дент-Сервіс.",
+    "6 досвідчених стоматологів у Дніпрі: імплантологи, ортопеди, пародонтологи, ендодонти. 30+ років практики у клініки Дентсервіс.",
 };
 
 export default function LikariPage() {
