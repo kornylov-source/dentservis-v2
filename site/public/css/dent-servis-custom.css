@@ -351,7 +351,7 @@
   display: grid !important;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .header-section-contents .header-logo-wrapper {
@@ -361,10 +361,16 @@
 .header-section-contents .header-navigations-wrapper {
   justify-self: center;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .header-section-contents .header-cta-wrapper {
   justify-self: end;
+  width: auto !important;
+  flex-shrink: 0;
+}
+
+.header-section-contents .header-cta-wrapper .primary-button {
   flex-shrink: 0;
 }
 
