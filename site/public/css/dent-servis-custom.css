@@ -16,8 +16,8 @@
 
 /* В шапке: ограничиваем по высоте, ширина авто (не обрезается) */
 .brand-logo-header {
-  height: 64px;
-  max-height: 64px;
+  height: 80px;
+  max-height: 80px;
   width: auto;
   max-width: none;
 }
@@ -42,8 +42,8 @@
 
 @media (max-width: 768px) {
   .brand-logo-header {
-    height: 44px;
-    max-height: 44px;
+    height: 52px;
+    max-height: 52px;
   }
   .brand-logo-footer {
     height: 56px;
