@@ -62,7 +62,13 @@ export default function ServiceDetail({ service }: Props) {
           <div className="service-hero-grid">
             <div className="service-hero-content">
               <h2>
-                {service.name} <span className="text-color">з гарантією</span>
+                {service.heroTitle ? (
+                  service.heroTitle
+                ) : (
+                  <>
+                    {service.name} <span className="text-color">з гарантією</span>
+                  </>
+                )}
               </h2>
               <p className="paragraph-no-margin">{service.hero.intro}</p>
               <ul className="service-benefits-list">
@@ -178,9 +184,6 @@ export default function ServiceDetail({ service }: Props) {
               <h2>
                 Наші <span className="text-color">стандарти</span> для цієї послуги
               </h2>
-              <p className="paragraph-no-margin">
-                Що ми робимо однаково для кожного пацієнта — від першого візиту до фінальної реставрації.
-              </p>
             </div>
           </div>
           <div className="service-standards-grid">
