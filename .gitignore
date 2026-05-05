@@ -6,6 +6,14 @@ node_modules/
 .DS_Store
 *.md
 !README.md
+
+# Env files (defense-in-depth — site/.gitignore also blocks them)
+.env
+.env.local
+.env*.local
+.env.production
+.env.development
+.mcp.json
 flossy-template_webflow_io.html
 .vercel
 .next/

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 
+import ChatWidget from "@/components/ChatWidget";
+
 export const metadata: Metadata = {
   title: "Дентсервіс — медичний центр у Дніпрі",
   description:
@@ -57,6 +59,9 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+
+        {/* AI-помічник: floating chat widget. Client component, грузиться lazy. */}
+        <ChatWidget />
 
         {/* jQuery — обязательная зависимость webflow.js (загружаем ПЕРЕД ним) */}
         <Script
