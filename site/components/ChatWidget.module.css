@@ -368,24 +368,34 @@
   color: var(--blue, #3083FF);
 }
 
-/* Mobile — full screen overlay */
+/* Mobile — bottom sheet з підтримкою iOS safe areas.
+   ВАЖЛИВО: НЕ ставимо `width: 100%` разом із `right: 0; left: 0` —
+   це викликає overflow на iOS Safari. Використовуємо `inset` + `width: auto`. */
 @media (max-width: 600px) {
   .fab {
     right: 16px;
-    bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     width: 56px;
     height: 56px;
   }
 
   .window {
+    /* inset: top right bottom left — заповнює весь екран знизу */
+    top: auto;
     right: 0;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: auto;
+    max-width: 100vw;
     height: 90vh;
-    max-height: 90vh;
+    height: 90dvh; /* iOS Safari: dynamic viewport, враховує URL bar */
+    max-height: 90dvh;
     border-radius: 18px 18px 0 0;
+    box-sizing: border-box;
+    overflow: hidden;
     animation: slideUpMobile 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Safe area для iPhone з notch / home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   @keyframes slideUpMobile {
@@ -395,6 +405,33 @@
     to {
       transform: translateY(0);
     }
+  }
+
+  /* Header не має виходити за межі — додаємо safe area padding для notch */
+  .header {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  /* Зменшуємо typography щоб все вмістилось на 360-414px екрані */
+  .headerTitle {
+    font-size: 0.92rem;
+  }
+
+  .headerSubtitle {
+    font-size: 0.72rem;
+  }
+
+  .messages {
+    padding: 12px;
+  }
+
+  .form {
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .footer {
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
   }
 }
 
