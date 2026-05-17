@@ -21,7 +21,7 @@ function renderClinic(): string {
 Назва: ${clinic.name}
 Місто: ${clinic.city}
 Адреса: ${clinic.address}
-Телефон: ${clinic.phone}
+Телефон: ${clinic.phone} або ${clinic.phone2}
 Графік: ${clinic.scheduleShort}
 Парковка: ${clinic.parking}
 Сторінка контактів: ${clinic.contactsUrl}
