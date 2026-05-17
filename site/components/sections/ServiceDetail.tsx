@@ -229,7 +229,7 @@ export default function ServiceDetail({ service }: Props) {
                   </div>
                   <div className="service-doctor-body">
                     <h3 className="heading-5">{doctor.shortName}</h3>
-                    <p className="caption">{doctor.position}</p>
+                    <p className="caption">{service.doctorRoles?.[doctor.slug] ?? doctor.position}</p>
                   </div>
                 </a>
               ))}

@@ -10,6 +10,8 @@ export const clinic = {
   address: "м. Дніпро, ж/м Тополя 1, буд. 15, кор. 5",
   phone: "(050) 593-55-49",
   phoneIntl: "+380505935549",
+  phone2: "(068) 356-65-20",
+  phone2Intl: "+380683566520",
   schedule: {
     weekdays: "ПН-ПТ: 9:00–19:00",
     saturday: "СБ: 9:00–14:00",
