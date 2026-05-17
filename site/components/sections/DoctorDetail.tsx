@@ -77,6 +77,16 @@ export default function DoctorDetail({ doctor }: Props) {
                 </p>
               ))}
 
+              {doctor.highlights && doctor.highlights.length > 0 && (
+                <ul className="doctor-highlights-list">
+                  {doctor.highlights.map((h, i) => (
+                    <li key={i}>
+                      <strong>{h.title}:</strong> {h.description}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
               {doctor.training && doctor.training.length > 0 && (
                 <ul className="doctor-training-list">
                   {doctor.training.map((item, i) => (
