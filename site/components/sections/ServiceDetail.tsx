@@ -66,7 +66,7 @@ export default function ServiceDetail({ service }: Props) {
                   service.heroTitle
                 ) : (
                   <>
-                    {service.name} <span className="text-color">з гарантією</span>
+                    {service.name} <span className="text-color">{service.heroAccent ?? "з гарантією"}</span>
                   </>
                 )}
               </h2>

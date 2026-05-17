@@ -13,6 +13,7 @@ export type Service = {
   slug: string;
   name: string;
   heroTitle?: string;
+  heroAccent?: string;
   short: string;
   hidden?: boolean;
   iconType:
@@ -749,7 +750,7 @@ export const services: Service[] = [
   {
     slug: "hihiena",
     name: "Гігієна та профілактика",
-    heroTitle: "Гігієна та профілактика — запорука здоров'я зубів та ясен",
+    heroAccent: "— запорука здоров'я зубів та ясен",
     short:
       "Air Flow, ультразвукове чищення, фторування. Запорука здоров'я зубів та ясен.",
     iconType: "hygiene",
