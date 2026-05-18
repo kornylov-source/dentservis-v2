@@ -317,7 +317,7 @@ export const services: Service[] = [
           "Через 7-10 днів — зняття швів, оцінка загоєння. Подальші рекомендації за потреби.",
       },
     ],
-    doctors: ["zhmakov", "avilov", "shcherbakov", "chala"],
+    doctors: ["zhmakov", "shcherbakov", "chala"],
     doctorRoles: {
       chala: "Хірургія пародонту",
     },
@@ -750,7 +750,7 @@ export const services: Service[] = [
   {
     slug: "hihiena",
     name: "Гігієна та профілактика",
-    heroAccent: "— запорука здоров'я зубів та ясен",
+    heroAccent: "запорука здоров'я зубів та ясен",
     short:
       "Air Flow, ультразвукове чищення, фторування. Запорука здоров'я зубів та ясен.",
     iconType: "hygiene",
