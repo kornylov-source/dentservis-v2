@@ -101,23 +101,6 @@ export default function DoctorDetail({ doctor }: Props) {
                 </div>
               )}
 
-              <div className="work-hours-wrapper">
-                <div className="day-wrapper">
-                  <div className="caption">Понеділок – П&apos;ятниця</div>
-                  <div className="caption">9:00 – 19:00</div>
-                </div>
-                <div className="gray-divider"></div>
-                <div className="day-wrapper">
-                  <div className="caption">Субота</div>
-                  <div className="caption">9:00 – 14:00</div>
-                </div>
-                <div className="gray-divider"></div>
-                <div className="day-wrapper">
-                  <div className="caption">Неділя</div>
-                  <div className="caption">Вихідний</div>
-                </div>
-              </div>
-
               <a href="/kontakty" className="primary-button w-inline-block">
                 <div className="primary-button-main-contents">
                   <div className="primary-button-icon-wrapper">

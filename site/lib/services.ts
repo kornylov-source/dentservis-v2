@@ -317,7 +317,7 @@ export const services: Service[] = [
           "Через 7-10 днів — зняття швів, оцінка загоєння. Подальші рекомендації за потреби.",
       },
     ],
-    doctors: ["zhmakov", "shcherbakov", "chala"],
+    doctors: ["zhmakov", "avilov", "shcherbakov", "chala"],
     doctorRoles: {
       chala: "Хірургія пародонту",
     },
@@ -419,7 +419,7 @@ export const services: Service[] = [
           "Перевіряємо прикус артикуляційним папером. Полируємо реставрацію — гладка поверхня не накопичує наліт.",
       },
     ],
-    doctors: ["klassina", "sasyk", "oskoma", "shcherbakov"],
+    doctors: ["klassina", "oskoma", "shcherbakov"],
     doctorRoles: {
       oskoma: "Ендодонтія, лікування каналів",
       shcherbakov: "Ендодонтія, реставрація",
@@ -821,7 +821,7 @@ export const services: Service[] = [
           "Показуємо як правильно чистити зуби, користуватись ниткою, ірригатором. Підбираємо щітку і пасту. Призначаємо наступний візит через 6 місяців.",
       },
     ],
-    doctors: ["chala", "sasyk", "oskoma"],
+    doctors: ["chala", "oskoma"],
     standards: [
       "Окремий стерильний набір інструментів для кожного пацієнта",
       "Air Flow з порошками різної абразивності залежно від типу нальоту",
