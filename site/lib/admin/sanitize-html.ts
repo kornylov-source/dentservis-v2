@@ -42,7 +42,6 @@ export function sanitizeArticleHtml(dirty: string): string {
     allowedTags: ALLOWED_TAGS,
     allowedAttributes: {
       a: ["href", "target", "rel"],
-      // ta
       table: ["class"],
       td: ["colspan", "rowspan"],
       th: ["colspan", "rowspan", "scope"],
