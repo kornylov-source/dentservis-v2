@@ -25,3 +25,35 @@ export type DoctorRow = {
   published: DoctorPayload | null;
   draft: DoctorPayload | null;
 };
+
+/** JSONB payload відгуку (таблиця reviews). */
+export type ReviewPayload = {
+  author: string;
+  text: string;
+  avatar: string;
+  stars: number;
+};
+
+/** JSONB payload цифри trust-bar (таблиця trust_stats). */
+export type TrustStatPayload = {
+  number: string;
+  label: string;
+};
+
+/** JSONB payload контактів клініки (singleton-таблиця clinic_info). */
+export type ClinicPayload = {
+  name: string;
+  legalName: string;
+  city: string;
+  address: string;
+  phone: string;
+  phoneIntl: string;
+  phone2: string;
+  phone2Intl: string;
+  schedule: { weekdays: string; saturday: string; sunday: string };
+  scheduleShort: string;
+  parking: string;
+  website: string;
+  contactsUrl: string;
+  mapsUrl: string;
+};

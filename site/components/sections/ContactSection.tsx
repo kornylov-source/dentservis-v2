@@ -1,0 +1,142 @@
+import type { ClinicInfo } from "@/lib/data/clinic";
+
+/**
+ * Секція контактів на /kontakty. Відтворює DOM зі сниппета contact-section.html.
+ * Телефони / адреса / графік / посилання на карту беруться з clinic_info (Supabase) —
+ * єдине джерело правди разом з AI-ботом. Форма і Google-карта статичні.
+ */
+export default function ContactSection({ clinic }: { clinic: ClinicInfo }) {
+  return (
+    <>
+      <section className="contactus-section">
+        <div className="w-layout-blockcontainer container w-container">
+          <div className="contactus-section-contents">
+            <div className="contactus-contents-column">
+              <h2>
+                Запишіться на <span className="text-color">консультацію</span>
+              </h2>
+              <p className="paragraph-no-margin">
+                Залиште свої контакти — ми передзвонимо протягом 15 хвилин у робочий час та підберемо зручний час для прийому.
+              </p>
+
+              <div className="work-hours-wrapper">
+                <div className="day-wrapper">
+                  <div className="caption">Понеділок – П&apos;ятниця</div>
+                  <div className="caption">9:00 – 19:00</div>
+                </div>
+                <div className="gray-divider"></div>
+                <div className="day-wrapper">
+                  <div className="caption">Субота</div>
+                  <div className="caption">9:00 – 14:00</div>
+                </div>
+                <div className="gray-divider"></div>
+                <div className="day-wrapper">
+                  <div className="caption">Неділя</div>
+                  <div className="caption">Вихідний</div>
+                </div>
+              </div>
+
+              <div className="contactus-wrapper">
+                <a href={`tel:${clinic.phoneIntl}`} className="contactus-box">
+                  <div className="icon w-embed">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M23.2665 30.3334C21.7598 30.3334 20.1732 29.9734 18.5332 29.28C16.9332 28.6 15.3198 27.6667 13.7465 26.5334C12.1865 25.3867 10.6798 24.1067 9.25317 22.7067C7.83984 21.28 6.55984 19.7734 5.4265 18.2267C4.27984 16.6267 3.35984 15.0267 2.7065 13.48C2.01317 11.8267 1.6665 10.2267 1.6665 8.72002C1.6665 7.68002 1.85317 6.69335 2.21317 5.77335C2.5865 4.82669 3.1865 3.94669 3.99984 3.18669C5.0265 2.17335 6.19984 1.66669 7.45317 1.66669C7.97317 1.66669 8.5065 1.78669 8.95984 2.00002C9.47984 2.24002 9.91984 2.60002 10.2398 3.08002L13.3332 7.44002C13.6132 7.82669 13.8265 8.20002 13.9732 8.57335C14.1465 8.97335 14.2398 9.37335 14.2398 9.76002C14.2398 10.2667 14.0932 10.76 13.8132 11.2267C13.6132 11.5867 13.3065 11.9734 12.9198 12.36L12.0132 13.3067C12.0265 13.3467 12.0398 13.3734 12.0532 13.4C12.2132 13.68 12.5332 14.16 13.1465 14.88C13.7998 15.6267 14.4132 16.3067 15.0265 16.9334C15.8132 17.7067 16.4665 18.32 17.0798 18.8267C17.8398 19.4667 18.3332 19.7867 18.6265 19.9334L18.5998 20L19.5732 19.04C19.9865 18.6267 20.3865 18.32 20.7732 18.12C21.5065 17.6667 22.4398 17.5867 23.3732 17.9734C23.7198 18.12 24.0932 18.32 24.4932 18.6L28.9198 21.7467C29.4132 22.08 29.7732 22.5067 29.9865 23.0134C30.1865 23.52 30.2798 23.9867 30.2798 24.4534C30.2798 25.0934 30.1332 25.7334 29.8532 26.3334C29.5732 26.9334 29.2265 27.4534 28.7865 27.9334C28.0265 28.7734 27.1998 29.3734 26.2398 29.76C25.3198 30.1334 24.3198 30.3334 23.2665 30.3334Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </div>
+                  <div className="heading-5">Зателефонувати</div>
+                  <div className="caption">{clinic.phone}</div>
+                  <div className="caption">{clinic.phone2}</div>
+                </a>
+                <a href={clinic.mapsUrl} target="_blank" rel="noopener" className="contactus-box">
+                  <div className="icon w-embed">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M16 17.92C13.7467 17.92 11.92 16.0933 11.92 13.84C11.92 11.5867 13.7467 9.77335 16 9.77335C18.2533 9.77335 20.08 11.6 20.08 13.8533C20.08 16.1067 18.2533 17.92 16 17.92ZM16 11.7733C14.8533 11.7733 13.92 12.7067 13.92 13.8533C13.92 15 14.8533 15.92 16 15.92C17.1467 15.92 18.08 14.9867 18.08 13.84C18.08 12.6933 17.1467 11.7733 16 11.7733Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M16 30.4533C14.4267 30.4533 12.84 29.8533 11.6133 28.6667C8.48 25.6533 4.97333 20.4267 6.30667 14.7867C7.50667 9.66669 11.92 7.36669 16 7.36669C16 7.36669 16 7.36669 16.0133 7.36669C20.0933 7.36669 24.5067 9.66669 25.7067 14.8C27.0267 20.44 23.52 25.64 20.3867 28.6667C19.16 29.8533 17.5733 30.4533 16 30.4533ZM16 9.36669C12.8133 9.36669 8.94667 11.0667 8.26667 15.24C7.09333 20.16 10.28 24.84 13.0133 27.2C14.6933 28.7867 17.32 28.7867 19 27.2C21.72 24.84 24.9067 20.16 23.7467 15.24C23.0533 11.0667 19.1867 9.36669 16 9.36669Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </div>
+                  <div className="heading-5">Адреса</div>
+                  <div className="caption">{clinic.address}</div>
+                </a>
+              </div>
+            </div>
+
+            <div className="contact-form-column">
+              <div className="contactus-form-wrapper w-form">
+                <form id="contact-form" name="contact-form" data-name="Contact Form" method="post" className="contact-form" action="#">
+                  <div className="contact-form-row">
+                    <div className="form-input-wrapper">
+                      <label htmlFor="Contact-Name">Ім&apos;я та прізвище</label>
+                      <input className="input w-input" maxLength={256} name="name" data-name="name" placeholder="Як до вас звертатися" type="text" id="Contact-Name" required />
+                    </div>
+                    <div className="form-input-wrapper">
+                      <label htmlFor="Contact-Phone">Телефон</label>
+                      <input className="input w-input" maxLength={256} name="phone" data-name="phone" placeholder="+380 ___ ___ __ __" type="tel" id="Contact-Phone" required />
+                    </div>
+                  </div>
+                  <div className="contact-form-row">
+                    <div className="form-input-wrapper">
+                      <label htmlFor="Contact-Email">Email (необов&apos;язково)</label>
+                      <input className="input w-input" maxLength={256} name="email" data-name="email" placeholder="email@example.com" type="email" id="Contact-Email" />
+                    </div>
+                    <div className="form-input-wrapper">
+                      <label htmlFor="Contact-Subject">Послуга</label>
+                      <select id="Contact-Subject" name="subject" data-name="subject" className="select w-select" defaultValue="">
+                        <option value="">Оберіть напрям</option>
+                        <option value="Імплантація">Імплантація</option>
+                        <option value="Ортопедія">Ортопедія та протезування</option>
+                        <option value="Пародонтологія">Пародонтологія</option>
+                        <option value="Хірургія">Хірургія</option>
+                        <option value="Терапія">Терапія</option>
+                        <option value="Естетика">Естетична стоматологія</option>
+                        <option value="Гігієна">Гігієна (Air Flow)</option>
+                        <option value="Консультація">Консультація</option>
+                        <option value="Інше">Інше</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-input-wrapper">
+                    <label htmlFor="Contact-Message">Коментар</label>
+                    <textarea id="Contact-Message" name="message" maxLength={5000} data-name="message" placeholder="Опишіть проблему або зручний час дзвінка" className="textarea w-input"></textarea>
+                  </div>
+                  <input type="submit" data-wait="Зачекайте..." className="submit-button w-button" value="Відправити заявку" />
+                </form>
+                <div className="success-message w-form-done">
+                  <div>Дякуємо! Ми передзвонимо найближчим часом.</div>
+                </div>
+                <div className="error-message w-form-fail">
+                  <div>Помилка надсилання. Спробуйте ще раз або зателефонуйте нам.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="contact-map-section">
+        <div className="w-layout-blockcontainer container w-container">
+          <div className="contact-map-wrapper">
+            <iframe
+              src="https://www.google.com/maps?q=%D0%94%D0%B5%D0%BD%D1%82-%D0%A1%D0%B5%D1%80%D0%B2%D1%96%D1%81+%D0%94%D0%BD%D1%96%D0%BF%D1%80%D0%BE&hl=uk&z=17&output=embed"
+              width="100%"
+              height={500}
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+              title="Дентсервіс на карті Дніпра"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

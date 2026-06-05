@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
-import { clinic } from "@/lib/clinic-contact";
+import { getPublishedClinic } from "@/lib/data/clinic";
 
 export const metadata: Metadata = {
   title: "Політика конфіденційності — Дент-Сервіс",
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     "Як медичний центр «Дент-Сервіс» обробляє ваші персональні дані: збір, зберігання, AI-помічник, ваші права.",
 };
 
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
+  const clinic = await getPublishedClinic();
   return (
     <>
       <HtmlSection file="header.html" />

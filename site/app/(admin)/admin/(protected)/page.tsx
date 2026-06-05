@@ -3,6 +3,9 @@ import Link from "next/link";
 const SECTIONS = [
   { href: "/admin/doctors", title: "Лікарі", desc: "Фото, біографії, спеціалізація команди" },
   { href: "/admin/services", title: "Послуги", desc: "Опис послуг, етапи, FAQ, ціни" },
+  { href: "/admin/reviews", title: "Відгуки", desc: "Відгуки пацієнтів на головній" },
+  { href: "/admin/trust", title: "Цифри (trust-bar)", desc: "Показники довіри: пацієнти, досвід, ліцензія" },
+  { href: "/admin/contacts", title: "Контакти", desc: "Телефони, адреса, графік — для сайту й AI-чату" },
 ];
 
 export default function AdminHome() {

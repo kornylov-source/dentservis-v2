@@ -6,20 +6,28 @@
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 import DoctorsCarousel from "@/components/sections/DoctorsCarousel";
+import TrustBar from "@/components/sections/TrustBar";
+import ReviewsSlider from "@/components/sections/ReviewsSlider";
 import { getDoctors } from "@/lib/data/doctors";
+import { getTrustStats } from "@/lib/data/trust";
+import { getReviews } from "@/lib/data/reviews";
 
 export default async function Page() {
-  const doctors = await getDoctors();
+  const [doctors, trustStats, reviews] = await Promise.all([
+    getDoctors(),
+    getTrustStats(),
+    getReviews(),
+  ]);
 
   return (
     <>
       <HtmlSection file="header.html" />
       <HtmlSection file="hero.html" />
-      <HtmlSection file="trust-bar.html" />
+      <TrustBar stats={trustStats} />
       <HtmlSection file="services-three.html" />
       <HtmlSection file="about.html" />
       <DoctorsCarousel doctors={doctors} />
-      <HtmlSection file="testimonials-slider.html" />
+      <ReviewsSlider reviews={reviews} />
       <HtmlSection file="cta-offer.html" />
       <HtmlSection file="blog-carousel.html" />
       <HtmlSection file="footer.html" />

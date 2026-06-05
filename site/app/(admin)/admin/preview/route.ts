@@ -10,10 +10,14 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get("slug");
   const type = searchParams.get("type");
-  const base = type === "service" ? "/poslugy" : "/likari";
 
   const dm = await draftMode();
   dm.enable();
 
+  // Відгуки і trust-bar — на головній; контакти — на сторінці контактів.
+  if (type === "review" || type === "trust") redirect("/");
+  if (type === "contacts") redirect("/kontakty");
+
+  const base = type === "service" ? "/poslugy" : "/likari";
   redirect(slug ? `${base}/${slug}` : base);
 }
