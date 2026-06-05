@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 import DoctorDetail from "@/components/sections/DoctorDetail";
-import { doctors, getDoctor } from "@/lib/data/doctors";
+import { getDoctor, getPublishedDoctor, getAllDoctorSlugs } from "@/lib/data/doctors";
 
-export function generateStaticParams() {
-  return doctors.map((d) => ({ slug: d.slug }));
+export async function generateStaticParams() {
+  return getAllDoctorSlugs();
 }
 
 export async function generateMetadata({
@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const doctor = getDoctor(slug);
+  const doctor = await getPublishedDoctor(slug);
 
   if (!doctor) {
     return { title: "Лікар не знайдений — Дентсервіс" };
@@ -33,7 +33,7 @@ export default async function DoctorPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const doctor = getDoctor(slug);
+  const doctor = await getDoctor(slug);
 
   if (!doctor) {
     notFound();

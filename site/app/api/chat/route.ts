@@ -5,7 +5,7 @@ import {
   type UIMessage,
 } from "ai";
 
-import { SYSTEM_PROMPT } from "@/lib/bot-system-prompt";
+import { buildSystemPrompt } from "@/lib/bot-system-prompt";
 import { clinic } from "@/lib/clinic-contact";
 
 export const maxDuration = 30;
@@ -76,6 +76,8 @@ export async function POST(req: Request): Promise<Response> {
     });
   }
 
+  const systemPrompt = await buildSystemPrompt();
+
   const result = streamText({
     model: anthropic("claude-haiku-4-5"),
     // System prompt передаємо як SystemModelMessage в `system:` параметр.
@@ -85,7 +87,7 @@ export async function POST(req: Request): Promise<Response> {
     messages: [
       {
         role: "system",
-        content: SYSTEM_PROMPT,
+        content: systemPrompt,
         providerOptions: {
           anthropic: {
             cacheControl: { type: "ephemeral", ttl: "1h" },

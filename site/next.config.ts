@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Глобальна 404 для невідповідних URL (потрібно при двох root-layout).
+    globalNotFound: true,
+  },
   async redirects() {
     return [
       // Chrome иногда автодополняет URL до /uk (если в истории был такой URL).

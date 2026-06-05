@@ -1,7 +1,7 @@
-import { services } from "@/lib/services";
+import { getServices } from "@/lib/services";
 
-export default function ServicesCatalog() {
-  const visibleServices = services.filter((s) => !s.hidden);
+export default async function ServicesCatalog() {
+  const visibleServices = await getServices();
   return (
     <section className="services-catalog-section">
       <div className="w-layout-blockcontainer container w-container">

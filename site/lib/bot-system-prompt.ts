@@ -9,8 +9,8 @@
  * або відповідні дані-джерела (services.ts, doctors.ts, bot-knowledge.ts).
  */
 
-import { services } from "./services";
-import { doctors } from "./data/doctors";
+import { getPublishedServices } from "./services";
+import { getPublishedDoctors } from "./data/doctors";
 import { posts } from "./blog";
 import { clinic } from "./clinic-contact";
 import { botKnowledge } from "./bot-knowledge";
@@ -30,8 +30,8 @@ ${botKnowledge.facts.yearsOnMarket} · ${botKnowledge.facts.patientsServed} · $
 </clinic>`.trim();
 }
 
-function renderServices(): string {
-  const visible = services.filter((s) => !s.hidden);
+async function renderServices(): Promise<string> {
+  const visible = await getPublishedServices();
 
   const items = visible
     .map((s) => {
@@ -62,7 +62,8 @@ ${faq}
   return `<services>\n${items}\n</services>`;
 }
 
-function renderDoctors(): string {
+async function renderDoctors(): Promise<string> {
+  const doctors = await getPublishedDoctors();
   const items = doctors
     .map((d) => {
       const bio = d.bio.join(" ");
@@ -221,7 +222,7 @@ const ROLE = `
 Ти НЕ лікар, НЕ адміністратор і НЕ записуєш пацієнтів. Якщо хочуть записатись — направляй на сторінку контактів або телефон.
 `.trim();
 
-export function buildSystemPrompt(): string {
+export async function buildSystemPrompt(): Promise<string> {
   return [
     ROLE,
     RULES,
@@ -231,12 +232,10 @@ export function buildSystemPrompt(): string {
     renderClinic(),
     renderFacts(),
     renderAbsoluteNo(),
-    renderServices(),
-    renderDoctors(),
+    await renderServices(),
+    await renderDoctors(),
     renderBlogIndex(),
     "</knowledge_base>",
     EXAMPLES,
   ].join("\n\n");
 }
-
-export const SYSTEM_PROMPT = buildSystemPrompt();

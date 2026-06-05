@@ -5,8 +5,12 @@
 
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
+import DoctorsCarousel from "@/components/sections/DoctorsCarousel";
+import { getDoctors } from "@/lib/data/doctors";
 
-export default function Page() {
+export default async function Page() {
+  const doctors = await getDoctors();
+
   return (
     <>
       <HtmlSection file="header.html" />
@@ -14,7 +18,7 @@ export default function Page() {
       <HtmlSection file="trust-bar.html" />
       <HtmlSection file="services-three.html" />
       <HtmlSection file="about.html" />
-      <HtmlSection file="doctors-carousel.html" />
+      <DoctorsCarousel doctors={doctors} />
       <HtmlSection file="testimonials-slider.html" />
       <HtmlSection file="cta-offer.html" />
       <HtmlSection file="blog-carousel.html" />

@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts, CATEGORY_ORDER } from "@/lib/blog";
-import { services } from "@/lib/services";
-import { doctors } from "@/lib/data/doctors";
+import { getPublishedServices } from "@/lib/services";
+import { getPublishedDoctors } from "@/lib/data/doctors";
 
 const SITE = "https://dent-servis.com.ua";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const today = new Date().toISOString().split("T")[0];
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -18,14 +18,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/blog`, lastModified: today, changeFrequency: "weekly", priority: 0.9 },
   ];
 
-  const servicePages: MetadataRoute.Sitemap = services.map((s) => ({
+  const serviceList = await getPublishedServices();
+  const servicePages: MetadataRoute.Sitemap = serviceList.map((s) => ({
     url: `${SITE}/poslugy/${s.slug}`,
     lastModified: today,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
 
-  const doctorPages: MetadataRoute.Sitemap = doctors.map((d) => ({
+  const doctorList = await getPublishedDoctors();
+  const doctorPages: MetadataRoute.Sitemap = doctorList.map((d) => ({
     url: `${SITE}/likari/${d.slug}`,
     lastModified: today,
     changeFrequency: "monthly" as const,

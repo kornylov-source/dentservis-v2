@@ -4,7 +4,7 @@ import {
   formatDateUk,
   getRelatedPosts,
 } from "@/lib/blog";
-import { doctors } from "@/lib/data/doctors";
+import { getPublishedDoctors } from "@/lib/data/doctors";
 
 type Props = {
   post: BlogPostType;
@@ -14,9 +14,10 @@ function safeJsonLd(obj: unknown): string {
   return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
 
-export default function BlogPost({ post }: Props) {
+export default async function BlogPost({ post }: Props) {
   const cat = CATEGORY_META[post.category];
-  const author = doctors.find((d) => d.slug === post.authorSlug);
+  const allDoctors = await getPublishedDoctors();
+  const author = allDoctors.find((d) => d.slug === post.authorSlug);
   const related = getRelatedPosts(post.slug, 3);
 
   const articleSchema = {

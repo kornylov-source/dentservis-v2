@@ -1,11 +1,21 @@
+import "server-only";
+import { cache } from "react";
+import { draftMode } from "next/headers";
+import { getServiceClient } from "@/lib/supabase/server";
+import type { DoctorPayload } from "@/lib/supabase/types";
+
 export interface Doctor {
   slug: string;
   fullName: string;
   shortName: string;
   position: string;
   experience: string;
-  photo: string;
+  photo: string; // детальне фото (1:1) — використовує DoctorDetail
+  photoCard: string; // фото картки (4:5) — список і карусель
   specialty: string;
+  cardSpecialty: string;
+  cardExperienceList: string;
+  cardExperienceCarousel: string;
   bio: string[];
   highlights?: { title: string; description: string }[];
   training?: string[];
@@ -14,168 +24,99 @@ export interface Doctor {
   hobby?: string;
 }
 
-export const doctors: Doctor[] = [
-  {
-    slug: "zhmakov",
-    fullName: "Жмаков Олександр Анатолійович",
-    shortName: "Жмаков О. А.",
-    position: "Медичний директор, лікар-стоматолог-хірург, імплантолог",
-    experience: "36 років досвіду",
-    photo: "/images/doctors/zhmakov.jpg",
-    specialty: "Дентальна імплантація, All-on-4, All-on-6",
-    bio: [
-      "Медичний директор клініки «Дентсервіс», засновник. Лікар-стоматолог-хірург, імплантолог із 36-річним досвідом практики.",
-      "У роботі керується принципами доказової медицини (evidence-based clinical practice) та рекомендаціями МОЗ України. Постійно вдосконалює свої навички, навчаючись у провідних світових лідерів стоматології та імплантології.",
-    ],
-    training: [
-      "Практичний курс «Трансназальні Зігоми» у Vanderlim Branco Comargo (Бразилія)",
-      "Сінус-ліфтинг — Samuel Lee (США)",
-      "«Стоматологія, яка змінює життя» — Dr. Miguel Stanley",
-      "Постійний учасник міжнародних стоматологічних симпозіумів: Україна, США, Барселона, Корея, Бразилія",
-    ],
-    expertise:
-      "Лікар спеціалізується на дентальній імплантації, протоколах All-on-4 та All-on-6, тотальному перевтіленні зубного ряду на імплантах. Працює з найскладнішими клінічними випадками, де інші клініки відмовляють у лікуванні.",
-    quote:
-      "Чим складніший клінічний випадок — тим цікавіше. Тому я постійно вдосконалюю свої навички та роблю все можливе, щоб допомогти пацієнту.",
-    hobby: "Гірські лижі, подорожі.",
-  },
-  {
-    slug: "avilov",
-    fullName: "Авілов Ігор Миколайович",
-    shortName: "Авілов І. М.",
-    position: "Лікар-стоматолог, хірург, ортопед",
-    experience: "40 років досвіду",
-    photo: "/images/doctors/avilov.jpg",
-    specialty: "Хірургія, ортопедична стоматологія, протезування",
-    bio: [
-      "Досвідчений лікар-стоматолог, хірург та ортопед із 40-річним стажем роботи. Постійно навчається та вдосконалює навички сучасної стоматології.",
-      "Лікар з великим досвідом, багато років очолював стоматологію у Херсоні. Нам дуже пощастило мати такого лікаря в своїй команді. Пацієнти часто відзначають його як висококласного та досвідченого ортопеда, з яким завжди легко знайти комунікацію.",
-    ],
-    expertise:
-      "Стоматологія загального профілю, хірургічна та ортопедична стоматологія: протезування, встановлення коронок, мостоподібних протезів, відновлення зубного ряду, знімне протезування.",
-  },
-  {
-    slug: "chala",
-    fullName: "Чала Анна Леонідівна",
-    shortName: "Чала А. Л.",
-    position: "Лікар-стоматолог-пародонтолог, лікар-стоматолог-терапевт",
-    experience: "12 років досвіду",
-    photo: "/images/doctors/chala.jpg",
-    specialty: "Пародонтологія, терапія, пластика м'яких тканин",
-    bio: [
-      "Лікар-стоматолог-пародонтолог та терапевт із 12-річним досвідом. Закінчила медичний університет у 2012 році, інтернатура за спеціальністю «Стоматологія» — 2014 рік.",
-      "Постійно підвищує кваліфікацію у сфері пародонтології та терапевтичної стоматології, впроваджує сучасні протоколи хірургічного та консервативного лікування і профілактики захворювань ясен. Стажування у провідних спеціалістів України та Європи, регулярна участь у стоматологічних конференціях та практичних інтенсивах.",
-    ],
-    expertise:
-      "Орієнтація на збереження власних зубів пацієнта, рання діагностика проблем із яснами та делікатне, прогнозоване лікування з довготривалим результатом. Пластика м'яких тканин.",
-    quote:
-      "Я фанат не тільки здорових та гарних зубів, але більш за все обожнюю здорові ясна.",
-    hobby: "Подорожі, активний спосіб життя.",
-  },
-  {
-    slug: "oskoma",
-    fullName: "Оскома Олена Анатоліївна",
-    shortName: "Оскома О. А.",
-    position: "Лікар-стоматолог-терапевт, провідний ендодонт клініки",
-    experience: "21 рік досвіду",
-    photo: "/images/doctors/oskoma.jpg",
-    specialty: "Ендодонтія, складна терапія",
-    bio: [
-      "Провідний ендодонт клініки з 21-річним досвідом. Стоматолог-терапевт, який спеціалізується на найскладніших клінічних випадках — лікуванні кореневих каналів, які інші клініки рекомендують видаляти.",
-      "Щорічно вдосконалює навички в терапевтичній стоматології та ендодонтії, працює за сучасними протоколами з обов'язковим діагностичним контролем.",
-    ],
-    highlights: [
-      {
-        title: "Рятує безнадійне",
-        description:
-          "Спеціалізується на порятунку зубів зі складними запаленнями та анатомією.",
-      },
-      {
-        title: "Бачить невидиме",
-        description:
-          "Майстерно знаходить ультратонкі та приховані канали, які «не бачить» рентген.",
-      },
-      {
-        title: "Виправляє складні помилки",
-        description:
-          "Безпечно вилучає уламки інструментів та переліковує запущені канали.",
-      },
-    ],
-    expertise:
-      "Первинне та повторне лікування кореневих каналів, ретреатмент після невдалого попереднього лікування, робота з ультратонкими і прихованими каналами, видалення уламків інструментів. Збереження природних зубів, які здаються безнадійними.",
-    quote:
-      "Моя мета — зберегти ваш власний зуб у 100% випадків, коли це фізично можливо. Сучасні технології та мої навички дозволяють творити дива.",
-    hobby: "В'язання, читання, плавання.",
-  },
-  {
-    slug: "klassina",
-    fullName: "Классіна Оксана Миколаївна",
-    shortName: "Классіна О. М.",
-    position: "Лікар-стоматолог-терапевт",
-    experience: "20 років досвіду",
-    photo: "/images/doctors/klassina.jpg",
-    specialty: "Терапія, реставрація, робота з тривожними пацієнтами",
-    bio: [
-      "Стоматолог-терапевт із 20-річним досвідом. Провідний спеціаліст в області терапевтичного лікування.",
-      "Активно вдосконалює навички, освоює передові технології та матеріали, тому її пацієнти завжди отримують лікування за найвищими сучасними стандартами.",
-    ],
-    highlights: [
-      {
-        title: "Досвід, якому довіряють",
-        description: "Понад 20 років успішної практики та тисячі вдячних пацієнтів.",
-      },
-      {
-        title: "Турбота про ваш спокій",
-        description:
-          "Спеціалізується на роботі з пацієнтами, які відчувають страх або тривогу перед лікуванням.",
-      },
-      {
-        title: "Емпатія та увага",
-        description:
-          "Лікар, яка вміє вислухати, заспокоїти та знайти індивідуальний підхід до кожного.",
-      },
-      {
-        title: "Сімейний лікар",
-        description:
-          "Їй довіряють здоров'я своїх родин цілі покоління пацієнтів.",
-      },
-    ],
-    expertise:
-      "Терапевтичне лікування, естетична реставрація, робота з пацієнтами, які мають дентофобію або підвищену тривожність. Сімейна стоматологія — лікує цілі покоління пацієнтів.",
-    quote:
-      "Для мене важливо, щоб у кріслі пацієнт почувався в повній безпеці. Страх зникає там, де з'являється довіра, тому мій прийом завжди починається зі щирої розмови та уваги до ваших почуттів.",
-  },
-  {
-    slug: "shcherbakov",
-    fullName: "Щербаков Кирило Ігорович",
-    shortName: "Щербаков К. І.",
-    position: "Лікар-стоматолог, імплантолог, ортопед",
-    experience: "Імплантація, тотальні реабілітації, складні випадки",
-    photo: "/images/doctors/shcherbakov.jpg",
-    specialty: "Імплантація, ортопедична реабілітація, естетика",
-    bio: [
-      "Лікар-стоматолог, який працює у напрямі імплантації та ортопедичної реабілітації. Фокус не на окремих зубах, а на системі: прикус, функція та довготривалий результат.",
-      "Кожен випадок починається з діагностики: КТ, скани, фотопротокол. Лікування завжди планується заздалегідь — без імпровізації у процесі. Працює зі складними випадками: видалення, імплантація, тотальні реабілітації, протезування. Вільно володіє англійською — приймає пацієнтів з різних країн.",
-      "Постійно навчається, тестує нові підходи і технології.",
-    ],
-    training: [
-      "Курси Amel Dental Hub (Дніпро): реставрація, мікроендодонтія, прямі реставрації передніх зубів",
-      "Базовий курс з імплантації VITAPLANT (2021), модульний курс з цифрової стоматології Д. Ковальчука (2022)",
-      "MASTERS (2023, 2024), IMPLANTS (2023) — поглиблені програми з ортопедичної реабілітації та імплантації",
-      "Курс з вінірів Максима Сергатого (2023), функціональна стоматологія Станіслава Мартиновича (2023)",
-      "Аугментація в бокових відділах (П. А. Куцяк), закриття рецесій (М. Солонько)",
-    ],
-    expertise:
-      "Імплантація, тотальні реабілітації, ортопедичне протезування, естетична реставрація фронтальних зубів. Робота за цифровим протоколом з обов'язковим плануванням до початку лікування.",
-    quote:
-      "Моя задача — зробити естетично і стабільно на роки. Постійне навчання — це те, що мене драйвить і не дає стояти на місці.",
-  },
-];
-
-export function getDoctor(slug: string): Doctor | undefined {
-  return doctors.find((d) => d.slug === slug);
+function mapPayload(slug: string, p: DoctorPayload): Doctor {
+  return {
+    slug,
+    fullName: p.fullName,
+    shortName: p.shortName,
+    position: p.position,
+    experience: p.experience,
+    photo: p.photoDetail,
+    photoCard: p.photoCard,
+    specialty: p.specialty,
+    cardSpecialty: p.cardSpecialty,
+    cardExperienceList: p.cardExperienceList,
+    cardExperienceCarousel: p.cardExperienceCarousel,
+    bio: p.bio,
+    highlights: p.highlights ?? undefined,
+    training: p.training ?? undefined,
+    expertise: p.expertise ?? undefined,
+    quote: p.quote ?? undefined,
+    hobby: p.hobby ?? undefined,
+  };
 }
 
-export function getAllDoctorSlugs(): { slug: string }[] {
-  return doctors.map((d) => ({ slug: d.slug }));
+// --- Опубліковані лікарі: кешовано, тегом 'doctors'. Безпечно у build-/metadata-/
+// sitemap-/бот-/послуги-контексті (без draftMode). Інвалідується updateTag('doctors'). ---
+async function fetchPublishedDoctors(): Promise<Doctor[]> {
+  try {
+    const sb = getServiceClient();
+    const { data, error } = await sb
+      .from("doctors")
+      .select("slug, sort_order, published")
+      .not("published", "is", null)
+      .order("sort_order", { ascending: true });
+    if (error) {
+      console.error("[doctors] fetchPublished error:", error.message);
+      return [];
+    }
+    return (data ?? []).map((r) =>
+      mapPayload(r.slug as string, r.published as DoctorPayload),
+    );
+  } catch (e) {
+    console.error("[doctors] fetchPublished exception:", e);
+    return [];
+  }
+}
+
+// Per-request memoization (React cache). Без cross-request кешу: статичні сторінки
+// тримають дані з моменту білда/ревалідації; updateDoctors-actions роблять
+// revalidatePath, тож після публікації сторінки регенеруються свіжими.
+export const getPublishedDoctors = cache(fetchPublishedDoctors);
+
+export async function getPublishedDoctor(
+  slug: string,
+): Promise<Doctor | undefined> {
+  const all = await getPublishedDoctors();
+  return all.find((d) => d.slug === slug);
+}
+
+export async function getAllDoctorSlugs(): Promise<{ slug: string }[]> {
+  const all = await getPublishedDoctors();
+  return all.map((d) => ({ slug: d.slug }));
+}
+
+// --- Draft-aware: у режимі preview (draftMode) показує coalesce(draft, published),
+// без кешу. Для рендеру сторінок лікарів (список / карусель / детальна). ---
+async function fetchPreviewDoctors(): Promise<Doctor[]> {
+  try {
+    const sb = getServiceClient();
+    const { data, error } = await sb
+      .from("doctors")
+      .select("slug, sort_order, published, draft")
+      .order("sort_order", { ascending: true });
+    if (error) {
+      console.error("[doctors] fetchPreview error:", error.message);
+      return [];
+    }
+    return (data ?? [])
+      .map((r) => {
+        const payload = (r.draft ?? r.published) as DoctorPayload | null;
+        return payload ? mapPayload(r.slug as string, payload) : null;
+      })
+      .filter((d): d is Doctor => d !== null);
+  } catch (e) {
+    console.error("[doctors] fetchPreview exception:", e);
+    return [];
+  }
+}
+
+export async function getDoctors(): Promise<Doctor[]> {
+  const { isEnabled } = await draftMode();
+  return isEnabled ? fetchPreviewDoctors() : getPublishedDoctors();
+}
+
+export async function getDoctor(slug: string): Promise<Doctor | undefined> {
+  const all = await getDoctors();
+  return all.find((d) => d.slug === slug);
 }

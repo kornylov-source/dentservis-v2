@@ -1,12 +1,13 @@
 import type { Service } from "@/lib/services";
-import { doctors } from "@/lib/data/doctors";
+import { getPublishedDoctors } from "@/lib/data/doctors";
 
 interface Props {
   service: Service;
 }
 
-export default function ServiceDetail({ service }: Props) {
-  const serviceDoctors = doctors.filter((d) => service.doctors.includes(d.slug));
+export default async function ServiceDetail({ service }: Props) {
+  const allDoctors = await getPublishedDoctors();
+  const serviceDoctors = allDoctors.filter((d) => service.doctors.includes(d.slug));
 
   return (
     <>
