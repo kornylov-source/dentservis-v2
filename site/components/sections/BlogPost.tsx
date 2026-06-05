@@ -18,7 +18,7 @@ export default async function BlogPost({ post }: Props) {
   const cat = CATEGORY_META[post.category];
   const allDoctors = await getPublishedDoctors();
   const author = allDoctors.find((d) => d.slug === post.authorSlug);
-  const related = getRelatedPosts(post.slug, 3);
+  const related = await getRelatedPosts(post.slug, 3);
 
   const articleSchema = {
     "@context": "https://schema.org",

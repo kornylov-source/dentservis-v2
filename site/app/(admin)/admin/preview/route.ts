@@ -17,6 +17,7 @@ export async function GET(request: Request) {
   // Відгуки і trust-bar — на головній; контакти — на сторінці контактів.
   if (type === "review" || type === "trust") redirect("/");
   if (type === "contacts") redirect("/kontakty");
+  if (type === "blog") redirect(slug ? `/blog/${slug}` : "/blog");
 
   const base = type === "service" ? "/poslugy" : "/likari";
   redirect(slug ? `${base}/${slug}` : base);

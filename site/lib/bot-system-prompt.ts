@@ -12,7 +12,7 @@
 import { getPublishedServices } from "./services";
 import { getPublishedDoctors } from "./data/doctors";
 import { getPublishedClinic, type ClinicInfo } from "./data/clinic";
-import { posts } from "./blog";
+import { getPublishedPosts } from "./blog";
 import { botKnowledge } from "./bot-knowledge";
 
 function renderClinic(clinic: ClinicInfo): string {
@@ -83,7 +83,8 @@ async function renderDoctors(): Promise<string> {
   return `<doctors>\n${items}\n</doctors>`;
 }
 
-function renderBlogIndex(): string {
+async function renderBlogIndex(): Promise<string> {
+  const posts = await getPublishedPosts();
   const items = posts
     .map(
       (p) =>
@@ -235,7 +236,7 @@ export async function buildSystemPrompt(): Promise<string> {
     renderAbsoluteNo(),
     await renderServices(),
     await renderDoctors(),
-    renderBlogIndex(),
+    await renderBlogIndex(),
     "</knowledge_base>",
     EXAMPLES(clinic),
   ].join("\n\n");

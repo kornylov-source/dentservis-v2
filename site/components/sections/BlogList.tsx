@@ -7,7 +7,7 @@ import {
   CATEGORY_META,
   CATEGORY_ORDER,
   formatDateUk,
-} from "@/lib/blog";
+} from "@/lib/blog-shared";
 
 type Props = {
   posts: BlogPost[];

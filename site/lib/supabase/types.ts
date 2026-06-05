@@ -40,6 +40,26 @@ export type TrustStatPayload = {
   label: string;
 };
 
+/** JSONB payload статті блогу (таблиця blog_posts). */
+export type BlogPostPayload = {
+  title: string;
+  excerpt: string;
+  content: string; // HTML, санітизований на сервері перед збереженням
+  category: string;
+  authorSlug: string;
+  publishedAt: string;
+  updatedAt?: string;
+  featuredImage: string;
+  imageAlt: string;
+  readingTimeMin: number;
+  seo: {
+    metaTitle: string;
+    metaDescription: string;
+    keywords: string[];
+  };
+  faq?: { question: string; answer: string }[];
+};
+
 /** JSONB payload контактів клініки (singleton-таблиця clinic_info). */
 export type ClinicPayload = {
   name: string;

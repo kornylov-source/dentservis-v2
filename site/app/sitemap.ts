@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts, CATEGORY_ORDER } from "@/lib/blog";
+import { getPublishedPosts, CATEGORY_ORDER } from "@/lib/blog";
 import { getPublishedServices } from "@/lib/services";
 import { getPublishedDoctors } from "@/lib/data/doctors";
 
@@ -34,7 +34,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const blogPosts: MetadataRoute.Sitemap = getAllPosts().map((p) => ({
+  const postList = await getPublishedPosts();
+  const blogPosts: MetadataRoute.Sitemap = postList.map((p) => ({
     url: `${SITE}/blog/${p.slug}`,
     lastModified: p.updatedAt || p.publishedAt,
     changeFrequency: "monthly" as const,

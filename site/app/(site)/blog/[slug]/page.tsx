@@ -3,10 +3,15 @@ import { notFound } from "next/navigation";
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 import BlogPost from "@/components/sections/BlogPost";
-import { getAllPosts, getPostBySlug, CATEGORY_META } from "@/lib/blog";
+import {
+  getPublishedPosts,
+  getPostBySlug,
+  CATEGORY_META,
+} from "@/lib/blog";
 
-export function generateStaticParams() {
-  return getAllPosts().map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const posts = await getPublishedPosts();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -15,7 +20,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return { title: "Статтю не знайдено — Дентсервіс" };
@@ -54,7 +59,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();

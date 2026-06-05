@@ -1,140 +1,135 @@
-export type BlogCategory =
-  | "implantatsiia"
-  | "estetyka"
-  | "terapiia"
-  | "parodontolohiia"
-  | "khirurhiia"
-  | "porady";
+import "server-only";
+import { cache } from "react";
+import { draftMode } from "next/headers";
+import { getServiceClient } from "@/lib/supabase/server";
+import type { BlogPostPayload } from "@/lib/supabase/types";
+import {
+  type BlogCategory,
+  type BlogPost,
+  CATEGORY_ORDER,
+} from "@/lib/blog-shared";
 
-export type BlogFaq = {
-  question: string;
-  answer: string;
-};
+// Реекспорт чистих частин — щоб наявні серверні імпорти `from "@/lib/blog"` працювали.
+export {
+  type BlogCategory,
+  type BlogFaq,
+  type BlogPost,
+  CATEGORY_META,
+  CATEGORY_ORDER,
+  calculateReadingTime,
+  formatDateUk,
+} from "@/lib/blog-shared";
 
-export type BlogPost = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: BlogCategory;
-  authorSlug: string;
-  publishedAt: string;
-  updatedAt?: string;
-  featuredImage: string;
-  imageAlt: string;
-  readingTimeMin: number;
-  seo: {
-    metaTitle: string;
-    metaDescription: string;
-    keywords: string[];
+const VALID_CATEGORIES = new Set<string>(CATEGORY_ORDER);
+
+function mapPayload(p: BlogPostPayload): BlogPost {
+  const category = (
+    VALID_CATEGORIES.has(p.category) ? p.category : "porady"
+  ) as BlogCategory;
+  return {
+    slug: "", // перезаписується в fetch (slug — окрема колонка)
+    title: p.title,
+    excerpt: p.excerpt,
+    content: p.content,
+    category,
+    authorSlug: p.authorSlug,
+    publishedAt: p.publishedAt,
+    updatedAt: p.updatedAt,
+    featuredImage: p.featuredImage,
+    imageAlt: p.imageAlt,
+    readingTimeMin: p.readingTimeMin,
+    seo: p.seo,
+    faq: p.faq,
   };
-  faq?: BlogFaq[];
-};
-
-export const CATEGORY_META: Record<
-  BlogCategory,
-  { name: string; shortName: string; description: string }
-> = {
-  implantatsiia: {
-    name: "Імплантація та цифровий протокол",
-    shortName: "Імплантація",
-    description:
-      "Дентальна імплантація MegaGen, All-on-4, синус-ліфтинг, цифровий протокол із 3D-плануванням.",
-  },
-  estetyka: {
-    name: "Естетична стоматологія",
-    shortName: "Естетика",
-    description:
-      "Керамічні вініри, відбілювання Opalescence, художня реставрація — для природньої та довговічної посмішки.",
-  },
-  terapiia: {
-    name: "Терапія та ендодонтія",
-    shortName: "Терапія",
-    description:
-      "Лікування карієсу, кореневих каналів, складна реставрація зубів.",
-  },
-  parodontolohiia: {
-    name: "Пародонтологія",
-    shortName: "Пародонтологія",
-    description:
-      "Лікування ясен, пародонтиту та гінгівіту, професійна гігієна Air Flow.",
-  },
-  khirurhiia: {
-    name: "Хірургія",
-    shortName: "Хірургія",
-    description:
-      "Видалення зубів, кісткова пластика, апікоектомія — складна стоматологічна хірургія.",
-  },
-  porady: {
-    name: "Поради та профілактика",
-    shortName: "Поради",
-    description:
-      "Як обрати клініку, профілактика, догляд за зубами вдома, відповіді на типові запитання.",
-  },
-};
-
-export const CATEGORY_ORDER: BlogCategory[] = [
-  "implantatsiia",
-  "estetyka",
-  "terapiia",
-  "parodontolohiia",
-  "khirurhiia",
-  "porady",
-];
-
-import { posts as allPosts } from "./blog-posts";
-
-export const posts: BlogPost[] = [...allPosts].sort(
-  (a, b) =>
-    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-);
-
-export function getAllPosts(): BlogPost[] {
-  return posts;
 }
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
-  return posts.find((p) => p.slug === slug);
+// --- Опубліковані статті: кешовано per-request, відсортовано за датою (новіші перші). ---
+async function fetchPublishedPosts(): Promise<BlogPost[]> {
+  try {
+    const sb = getServiceClient();
+    const { data, error } = await sb
+      .from("blog_posts")
+      .select("slug, published_at, published")
+      .not("published", "is", null)
+      .order("published_at", { ascending: false });
+    if (error) {
+      console.error("[blog] fetchPublished error:", error.message);
+      return [];
+    }
+    return (data ?? []).map((r) => ({
+      ...mapPayload(r.published as BlogPostPayload),
+      slug: r.slug as string,
+    }));
+  } catch (e) {
+    console.error("[blog] fetchPublished exception:", e);
+    return [];
+  }
 }
 
-export function getPostsByCategory(category: BlogCategory): BlogPost[] {
-  return posts.filter((p) => p.category === category);
+export const getPublishedPosts = cache(fetchPublishedPosts);
+
+// --- Draft-aware (для preview): coalesce(draft, published), без кешу. ---
+async function fetchPreviewPosts(): Promise<BlogPost[]> {
+  try {
+    const sb = getServiceClient();
+    const { data, error } = await sb
+      .from("blog_posts")
+      .select("slug, published_at, published, draft")
+      .order("published_at", { ascending: false, nullsFirst: false });
+    if (error) {
+      console.error("[blog] fetchPreview error:", error.message);
+      return [];
+    }
+    return (data ?? [])
+      .map((r) => {
+        const payload = (r.draft ?? r.published) as BlogPostPayload | null;
+        return payload
+          ? { ...mapPayload(payload), slug: r.slug as string }
+          : null;
+      })
+      .filter((p): p is BlogPost => p !== null);
+  } catch (e) {
+    console.error("[blog] fetchPreview exception:", e);
+    return [];
+  }
 }
 
-export function getRelatedPosts(slug: string, limit = 3): BlogPost[] {
-  const current = getPostBySlug(slug);
+async function resolvePosts(): Promise<BlogPost[]> {
+  const { isEnabled } = await draftMode();
+  return isEnabled ? fetchPreviewPosts() : getPublishedPosts();
+}
+
+export async function getAllPosts(): Promise<BlogPost[]> {
+  return resolvePosts();
+}
+
+export async function getPostBySlug(
+  slug: string,
+): Promise<BlogPost | undefined> {
+  const all = await resolvePosts();
+  return all.find((p) => p.slug === slug);
+}
+
+export async function getPostsByCategory(
+  category: BlogCategory,
+): Promise<BlogPost[]> {
+  const all = await resolvePosts();
+  return all.filter((p) => p.category === category);
+}
+
+export async function getRelatedPosts(
+  slug: string,
+  limit = 3,
+): Promise<BlogPost[]> {
+  const all = await resolvePosts();
+  const current = all.find((p) => p.slug === slug);
   if (!current) return [];
-  const sameCategory = posts.filter(
+  const sameCategory = all.filter(
     (p) => p.category === current.category && p.slug !== slug,
   );
   if (sameCategory.length >= limit) return sameCategory.slice(0, limit);
-  const others = posts.filter(
+  const others = all.filter(
     (p) => p.category !== current.category && p.slug !== slug,
   );
   return [...sameCategory, ...others].slice(0, limit);
-}
-
-export function calculateReadingTime(htmlContent: string): number {
-  const text = htmlContent.replace(/<[^>]+>/g, " ");
-  const words = text.trim().split(/\s+/).length;
-  return Math.max(1, Math.round(words / 200));
-}
-
-export function formatDateUk(iso: string): string {
-  const months = [
-    "січня",
-    "лютого",
-    "березня",
-    "квітня",
-    "травня",
-    "червня",
-    "липня",
-    "серпня",
-    "вересня",
-    "жовтня",
-    "листопада",
-    "грудня",
-  ];
-  const d = new Date(iso);
-  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }

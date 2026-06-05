@@ -6,6 +6,7 @@ const SECTIONS = [
   { href: "/admin/reviews", title: "Відгуки", desc: "Відгуки пацієнтів на головній" },
   { href: "/admin/trust", title: "Цифри (trust-bar)", desc: "Показники довіри: пацієнти, досвід, ліцензія" },
   { href: "/admin/contacts", title: "Контакти", desc: "Телефони, адреса, графік — для сайту й AI-чату" },
+  { href: "/admin/blog", title: "Блог", desc: "Статті: заголовок, фото, SEO, категорія, FAQ" },
 ];
 
 export default function AdminHome() {
