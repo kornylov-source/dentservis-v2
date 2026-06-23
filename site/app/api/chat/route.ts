@@ -76,35 +76,7 @@ export async function POST(req: Request): Promise<Response> {
     });
   }
 
-  // TEMP DIAGNOSTIC — повертаємо конкретну причину 500 текстом (без секретів).
-  // Прибрати після фіксу прод-конфігу.
-  const anthropicKey = process.env.ANTHROPIC_API_KEY ?? "";
-  if (anthropicKey.trim().length === 0) {
-    console.error("[dent-chat] ANTHROPIC_API_KEY missing/empty");
-    return Response.json(
-      { error: "DIAG: ANTHROPIC_API_KEY missing or empty in this deployment" },
-      { status: 500 },
-    );
-  }
-  if (anthropicKey !== anthropicKey.trim()) {
-    console.error("[dent-chat] ANTHROPIC_API_KEY has surrounding whitespace");
-    return Response.json(
-      { error: "DIAG: ANTHROPIC_API_KEY has leading/trailing whitespace" },
-      { status: 500 },
-    );
-  }
-
-  let systemPrompt: string;
-  try {
-    systemPrompt = await buildSystemPrompt();
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    console.error("[dent-chat] buildSystemPrompt failed", msg);
-    return Response.json(
-      { error: `DIAG: buildSystemPrompt failed — ${msg}` },
-      { status: 500 },
-    );
-  }
+  const systemPrompt = await buildSystemPrompt();
 
   const result = streamText({
     model: anthropic("claude-haiku-4-5"),

@@ -48,9 +48,26 @@ export async function proxy(req: NextRequest): Promise<NextResponse> {
     req.headers.get("x-real-ip") ??
     "anonymous";
 
-  const { success, limit, remaining, reset } = await ratelimit.limit(
-    `chat:${ip}`,
-  );
+  // Fail-open: якщо Redis недоступний (інстанс видалено, токен протух,
+  // мережева помилка) — НЕ ронимо чат, просто пропускаємо запит без ліміту.
+  // Інакше будь-яка проблема з Upstash = 500 на кожен запит у middleware.
+  let success = true;
+  let limit = 0;
+  let remaining = 0;
+  let reset = 0;
+  try {
+    const res = await ratelimit.limit(`chat:${ip}`);
+    success = res.success;
+    limit = res.limit;
+    remaining = res.remaining;
+    reset = res.reset;
+  } catch (e) {
+    console.error(
+      "[proxy] rate limit check failed — passing request through",
+      e instanceof Error ? e.message : String(e),
+    );
+    return NextResponse.next();
+  }
 
   if (!success) {
     return new NextResponse(
