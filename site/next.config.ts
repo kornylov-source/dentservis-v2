@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // www → apex (без www). Канонічний домен один — dentservice.dp.ua,
+      // щоб Google не бачив два однакових сайти. 301 (permanent).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.dentservice.dp.ua" }],
+        destination: "https://dentservice.dp.ua/:path*",
+        permanent: true,
+      },
       // Chrome иногда автодополняет URL до /uk (если в истории был такой URL).
       // Тоже самое поведение от языковых расширений / переводчика. Редиректим на главную.
       {
