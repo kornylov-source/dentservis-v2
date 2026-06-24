@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 
+import BinotelGetCall from "@/components/BinotelGetCall";
 import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
@@ -62,6 +63,10 @@ export default function RootLayout({
 
         {/* AI-помічник: floating chat widget. Client component, грузиться lazy. */}
         <ChatWidget />
+
+        {/* Binotel GetCall — віджет зворотного дзвінка. Рендериться тільки якщо
+            задано NEXT_PUBLIC_BINOTEL_WIDGET_ID (lazyOnload). */}
+        <BinotelGetCall />
 
         {/* jQuery — обязательная зависимость webflow.js (загружаем ПЕРЕД ним) */}
         <Script
