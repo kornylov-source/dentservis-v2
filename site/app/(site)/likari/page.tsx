@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Наші лікарі — Дентсервіс | Дніпро",
   description:
     "6 досвідчених стоматологів у Дніпрі: імплантологи, ортопеди, пародонтологи, ендодонти. 30+ років практики у клініки Дентсервіс.",
+  alternates: { canonical: "/likari" },
 };
 
 export default async function LikariPage() {

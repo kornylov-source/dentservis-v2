@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Послуги — Дентсервіс | Дніпро",
   description:
     "Повний спектр стоматологічних послуг у Дніпрі: імплантація, ортопедія, хірургія, терапія, пародонтологія, естетична стоматологія, гігієна. Цифровий протокол, гарантія.",
+  alternates: { canonical: "/poslugy" },
 };
 
 export default function PoslugyPage() {

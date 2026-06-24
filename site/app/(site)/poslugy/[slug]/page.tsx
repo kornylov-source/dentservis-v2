@@ -8,6 +8,8 @@ import {
   getPublishedService,
   getAllServiceSlugs,
 } from "@/lib/services";
+import { SITE_URL } from "@/lib/site-url";
+import { serviceSchema, faqSchema, jsonLd } from "@/lib/site-schema";
 
 export async function generateStaticParams() {
   return getAllServiceSlugs();
@@ -25,9 +27,13 @@ export async function generateMetadata({
     return { title: "Послугу не знайдено — Дентсервіс" };
   }
 
+  const url = `${SITE_URL}/poslugy/${slug}`;
+  const title = `${service.name} у Дніпрі — Дентсервіс`;
   return {
-    title: `${service.name} у Дніпрі — Дентсервіс`,
+    title,
     description: service.short,
+    alternates: { canonical: url },
+    openGraph: { title, description: service.short, url, type: "website" },
   };
 }
 
@@ -45,6 +51,16 @@ export default async function ServicePage({
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema(service)) }}
+      />
+      {service.faq && service.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema(service.faq)) }}
+        />
+      )}
       <HtmlSection file="header.html" />
       <ServiceDetail service={service} />
       <HtmlSection file="cta-offer.html" />

@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Часті питання — Дентсервіс | Дніпро",
   description:
     "Відповіді на найпоширеніші запитання про лікування у Дентсервіс: цифровий протокол, імплантація, гарантії, оплата, графік роботи. Дніпро.",
+  alternates: { canonical: "/faq" },
 };
 
 export default function FaqPage() {

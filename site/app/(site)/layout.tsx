@@ -3,17 +3,39 @@ import Script from "next/script";
 
 import BinotelGetCall from "@/components/BinotelGetCall";
 import ChatWidget from "@/components/ChatWidget";
+import { SITE_URL } from "@/lib/site-url";
+
+const DEFAULT_TITLE = "Дентсервіс — медичний центр у Дніпрі";
+const DEFAULT_DESCRIPTION =
+  "Сучасний медичний центр з цифровим протоколом лікування. Імплантація, ортопедія, пародонтологія, естетична стоматологія. 30+ років практики медичного директора у Дніпрі.";
 
 export const metadata: Metadata = {
-  title: "Дентсервіс — медичний центр у Дніпрі",
-  description:
-    "Сучасний медичний центр з цифровим протоколом лікування. Імплантація, ортопедія, пародонтологія, естетична стоматологія. 30+ років практики медичного директора у Дніпрі.",
+  // База для абсолютних URL у canonical / OG / og:image на всіх сторінках.
+  metadataBase: new URL(SITE_URL),
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
   icons: {
     icon: "/images/favicon.png",
     apple: "/images/webclip.png",
   },
   verification: {
     google: "o7He5n-gFNW6omFECAKX79aLdFfEIxiNcaIpg2yBbVw",
+  },
+  // Дефолтні OG/Twitter — успадковуються сторінками, які не задають свої.
+  openGraph: {
+    type: "website",
+    siteName: "Дентсервіс",
+    locale: "uk_UA",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    images: [{ url: "/images/og-default.jpg", width: 1200, height: 630, alt: "Дентсервіс — стоматологія у Дніпрі" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: ["/images/og-default.jpg"],
   },
 };
 
