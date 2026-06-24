@@ -19,6 +19,6 @@ export const clinic = {
   },
   scheduleShort: "ПН-ПТ 9:00–19:00, СБ 9:00–14:00, НД — вихідний",
   parking: "Безкоштовна парковка через дорогу від клініки, біля магазину Terra",
-  website: "https://ua.dentservice.dp.ua",
+  website: "https://dentservice.dp.ua",
   contactsUrl: "/kontakty",
 } as const;

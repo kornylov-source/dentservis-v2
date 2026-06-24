@@ -8,6 +8,7 @@ import {
   getPostBySlug,
   CATEGORY_META,
 } from "@/lib/blog";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateStaticParams() {
   const posts = await getPublishedPosts();
@@ -26,8 +27,8 @@ export async function generateMetadata({
     return { title: "Статтю не знайдено — Дентсервіс" };
   }
 
-  const url = `https://dent-servis.com.ua/blog/${post.slug}`;
-  const ogImage = `https://dent-servis.com.ua${post.featuredImage}`;
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const ogImage = `${SITE_URL}${post.featuredImage}`;
 
   return {
     title: post.seo.metaTitle,

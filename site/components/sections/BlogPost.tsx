@@ -5,6 +5,7 @@ import {
   getRelatedPosts,
 } from "@/lib/blog";
 import { getPublishedDoctors } from "@/lib/data/doctors";
+import { SITE_URL } from "@/lib/site-url";
 
 type Props = {
   post: BlogPostType;
@@ -25,7 +26,7 @@ export default async function BlogPost({ post }: Props) {
     "@type": "Article",
     headline: post.title,
     description: post.excerpt,
-    image: `https://dent-servis.com.ua${post.featuredImage}`,
+    image: `${SITE_URL}${post.featuredImage}`,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt || post.publishedAt,
     author: author
@@ -40,7 +41,7 @@ export default async function BlogPost({ post }: Props) {
       name: "Дентсервіс",
       logo: {
         "@type": "ImageObject",
-        url: "https://dent-servis.com.ua/images/logo.png",
+        url: `${SITE_URL}/images/logo.png`,
       },
     },
   };
@@ -53,25 +54,25 @@ export default async function BlogPost({ post }: Props) {
         "@type": "ListItem",
         position: 1,
         name: "Головна",
-        item: "https://dent-servis.com.ua/",
+        item: `${SITE_URL}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Блог",
-        item: "https://dent-servis.com.ua/blog",
+        item: `${SITE_URL}/blog`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: cat.shortName,
-        item: `https://dent-servis.com.ua/blog/category/${post.category}`,
+        item: `${SITE_URL}/blog/category/${post.category}`,
       },
       {
         "@type": "ListItem",
         position: 4,
         name: post.title,
-        item: `https://dent-servis.com.ua/blog/${post.slug}`,
+        item: `${SITE_URL}/blog/${post.slug}`,
       },
     ],
   };

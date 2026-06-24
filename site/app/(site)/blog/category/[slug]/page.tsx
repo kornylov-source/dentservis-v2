@@ -9,6 +9,7 @@ import {
   BlogCategory,
   getPostsByCategory,
 } from "@/lib/blog";
+import { SITE_URL } from "@/lib/site-url";
 
 export function generateStaticParams() {
   return CATEGORY_ORDER.map((slug) => ({ slug }));
@@ -26,7 +27,7 @@ export async function generateMetadata({
     return { title: "Категорію не знайдено — Дентсервіс" };
   }
 
-  const url = `https://dent-servis.com.ua/blog/category/${slug}`;
+  const url = `${SITE_URL}/blog/category/${slug}`;
 
   return {
     title: `${cat.name} — статті блогу Дентсервіс | Дніпро`,

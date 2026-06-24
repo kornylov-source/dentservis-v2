@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { getPublishedPosts, CATEGORY_ORDER } from "@/lib/blog";
 import { getPublishedServices } from "@/lib/services";
 import { getPublishedDoctors } from "@/lib/data/doctors";
+import { SITE_URL } from "@/lib/site-url";
 
-const SITE = "https://dent-servis.com.ua";
+const SITE = SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const today = new Date().toISOString().split("T")[0];
