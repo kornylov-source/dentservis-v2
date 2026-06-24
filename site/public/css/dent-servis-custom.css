@@ -101,7 +101,7 @@
   aspect-ratio: 2.2 / 1;           /* широка горизонтальна стрічка */
   object-fit: cover;
   object-position: center;
-  border-radius: 2rem;             /* внутрішній радіус = зовнішній − padding */
+  border-radius: 2rem !important;  /* внутрішній радіус (перебиваємо webflow border-radius:0) */
 }
 
 @media (max-width: 768px) {
@@ -110,8 +110,9 @@
     border-radius: 1.75rem;
   }
   .hero-section-image-column .hero-image {
-    aspect-ratio: 3 / 2;           /* на мобільному менш витягнуто, вхід не стискається */
-    border-radius: 1.5rem;
+    aspect-ratio: 3 / 2;             /* на мобільному менш витягнуто, вхід не стискається */
+    object-position: 42% center;     /* зсув кадру лівіше — вхід по центру (таблиця "9-19" справа не перетягує) */
+    border-radius: 1.5rem !important;
   }
 }
 
