@@ -2041,3 +2041,36 @@ select.select.w-select {
   opacity: 1 !important;
   transform: none !important;
 }
+
+/* ========== ССЫЛКА НА ДОГОВІР ОФЕРТИ В ФУТЕРІ ========== */
+.footer-copywrite-stack {
+  flex-direction: column;
+}
+
+.footer-offer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--colors--gray--gray-50, rgba(255, 255, 255, 0.55));
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-offer-link svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.footer-offer-link:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-offer-link:hover svg {
+  opacity: 1;
+}
