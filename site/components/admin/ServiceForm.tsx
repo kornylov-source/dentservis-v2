@@ -121,13 +121,21 @@ export default function ServiceForm({
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
+    setTopError(null);
     const fd = new FormData();
     fd.append("file", file);
-    const res = await uploadServiceImage(fd);
-    setUploading(false);
-    e.target.value = "";
-    if (!res.ok) setTopError(res.error);
-    else set("image", res.url);
+    try {
+      const res = await uploadServiceImage(fd);
+      if (!res.ok) setTopError(res.error);
+      else set("image", res.url);
+    } catch {
+      setTopError(
+        "Не вдалося завантажити фото. Спробуйте менший файл (до 5 МБ) або повторіть.",
+      );
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
   }
 
   function toggleDoctor(s: string) {

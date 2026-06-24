@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   experimental: {
     // Глобальна 404 для невідповідних URL (потрібно при двох root-layout).
     globalNotFound: true,
+    // Завантаження фото в адмінці йде через Server Action. Дефолтний ліміт тіла
+    // (1 МБ) обрізав запит для фото > 1 МБ — кнопка вічно висіла на "Завантаження".
+    // Файли валідуються до 5 МБ, тому 6 МБ дає запас на overhead форми.
+    serverActions: {
+      bodySizeLimit: "6mb",
+    },
   },
   async redirects() {
     return [
