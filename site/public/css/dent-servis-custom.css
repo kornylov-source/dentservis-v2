@@ -2074,3 +2074,15 @@ select.select.w-select {
 .footer-offer-link:hover svg {
   opacity: 1;
 }
+
+/* ========== ФІКС КОЛЬОРУ ТЕЛЕФОНІВ У ФУТЕРІ НА iOS ========== */
+/* iOS Safari автоматично розпізнає номери телефонів і фарбує їх своїм
+   системним кольором (чорний/синій), ігноруючи .text-white. Примусово
+   фарбуємо весь текст у футері в білий, включно з авто-згенерованими
+   tel-посиланнями. */
+.footer .footer-option-wrapper .caption,
+.footer .footer-option-wrapper .caption a,
+.footer a[href^="tel:"] {
+  color: var(--colors--gray--gray-50, #f5f5f5) !important;
+  text-decoration: none !important;
+}
