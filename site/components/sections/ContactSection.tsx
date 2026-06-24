@@ -55,7 +55,7 @@ export default function ContactSection({ clinic }: { clinic: ClinicInfo }) {
               </a>
 
               <a
-                href={`https://t.me/${clinic.phoneIntl.replace("+", "")}`}
+                href="https://t.me/dentservicedp"
                 target="_blank"
                 rel="noopener"
                 className="contactus-box"
