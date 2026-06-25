@@ -27,6 +27,8 @@ const FALLBACK: ClinicInfo = {
   website: DEFAULTS.website,
   contactsUrl: DEFAULTS.contactsUrl,
   mapsUrl: "https://maps.app.goo.gl/T6QnGrqqXjCfwm2p9",
+  telegram: DEFAULTS.telegram,
+  viberPhone: DEFAULTS.viberPhone,
 };
 
 async function fetchClinic(column: "published" | "draft" | "both"): Promise<ClinicInfo> {

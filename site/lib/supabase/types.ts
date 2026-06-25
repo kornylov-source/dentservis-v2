@@ -76,4 +76,35 @@ export type ClinicPayload = {
   website: string;
   contactsUrl: string;
   mapsUrl: string;
+  telegram?: string;
+  viberPhone?: string;
+};
+
+/** JSONB payload групи FAQ (таблиця faq_groups). */
+export type FaqGroupPayload = {
+  badge: string; // напр. «01»
+  title: string; // напр. «Загальні питання» — останнє слово виділяється у рендері
+};
+
+export type FaqGroupRow = {
+  id: string;
+  sort_order: number;
+  status: string;
+  published: FaqGroupPayload | null;
+  draft: FaqGroupPayload | null;
+};
+
+/** JSONB payload питання FAQ (таблиця faq_items). */
+export type FaqItemPayload = {
+  question: string;
+  answer: string;
+};
+
+export type FaqItemRow = {
+  id: string;
+  group_id: string;
+  sort_order: number;
+  status: string;
+  published: FaqItemPayload | null;
+  draft: FaqItemPayload | null;
 };

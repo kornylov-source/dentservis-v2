@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
+import FaqSection from "@/components/sections/FaqSection";
+import { getFaq } from "@/lib/data/faq";
 
 export const metadata: Metadata = {
   title: "Часті питання — Дентсервіс | Дніпро",
@@ -9,12 +11,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/faq" },
 };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const groups = await getFaq();
+
   return (
     <>
       <HtmlSection file="header.html" />
       <HtmlSection file="faq-banner.html" />
-      <HtmlSection file="faq-page.html" />
+      <FaqSection groups={groups} />
       <HtmlSection file="cta-offer.html" />
       <HtmlSection file="footer.html" />
 

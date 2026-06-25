@@ -55,7 +55,7 @@ export default function ContactSection({ clinic }: { clinic: ClinicInfo }) {
               </a>
 
               <a
-                href="https://t.me/dentservicedp"
+                href={clinic.telegram || "https://t.me/dentservicedp"}
                 target="_blank"
                 rel="noopener"
                 className="contactus-box"
@@ -73,7 +73,7 @@ export default function ContactSection({ clinic }: { clinic: ClinicInfo }) {
               </a>
 
               <a
-                href={`viber://chat?number=%2B${clinic.phoneIntl.replace("+", "")}`}
+                href={`viber://chat?number=%2B${(clinic.viberPhone || clinic.phoneIntl).replace("+", "")}`}
                 className="contactus-box"
               >
                 <div className="icon w-embed">

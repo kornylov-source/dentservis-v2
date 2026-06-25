@@ -24,6 +24,8 @@ export type ContactFormData = {
   website: string;
   contactsUrl: string;
   mapsUrl: string;
+  telegram: string;
+  viberPhone: string;
 };
 
 function Field({
@@ -82,6 +84,8 @@ export default function ContactForm({ initial }: { initial: ContactFormData }) {
       website: data.website,
       contactsUrl: data.contactsUrl,
       mapsUrl: data.mapsUrl,
+      telegram: data.telegram,
+      viberPhone: data.viberPhone,
     };
   }
 
@@ -191,6 +195,25 @@ export default function ContactForm({ initial }: { initial: ContactFormData }) {
         </Field>
         <Field label="Парковка" hint="текст для AI-чату" error={errors.parking}>
           <input className={inputCls} value={data.parking} onChange={(e) => set("parking", e.target.value)} />
+        </Field>
+      </section>
+
+      {/* Месенджери */}
+      <section className="grid gap-4 rounded-xl border border-slate-200 bg-white p-5 sm:grid-cols-2">
+        <h2 className="col-span-full text-sm font-semibold text-slate-900">Месенджери</h2>
+        <Field
+          label="Telegram"
+          hint="посилання, напр. https://t.me/dentservicedp"
+          error={errors.telegram}
+        >
+          <input className={inputCls} value={data.telegram} onChange={(e) => set("telegram", e.target.value)} />
+        </Field>
+        <Field
+          label="Viber"
+          hint="номер у форматі +380…; якщо порожньо — береться основний телефон"
+          error={errors.viberPhone}
+        >
+          <input className={inputCls} value={data.viberPhone} onChange={(e) => set("viberPhone", e.target.value)} />
         </Field>
       </section>
 

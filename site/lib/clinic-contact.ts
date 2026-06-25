@@ -21,4 +21,6 @@ export const clinic = {
   parking: "Безкоштовна парковка через дорогу від клініки, біля магазину Terra",
   website: "https://dentservice.dp.ua",
   contactsUrl: "/kontakty",
+  telegram: "https://t.me/dentservicedp",
+  viberPhone: "+380505935549",
 } as const;

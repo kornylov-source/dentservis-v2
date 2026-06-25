@@ -32,6 +32,8 @@ async function loadClinic(): Promise<ContactFormData> {
     website: p?.website ?? DEFAULTS.website,
     contactsUrl: p?.contactsUrl ?? DEFAULTS.contactsUrl,
     mapsUrl: p?.mapsUrl ?? "https://maps.app.goo.gl/T6QnGrqqXjCfwm2p9",
+    telegram: p?.telegram ?? DEFAULTS.telegram,
+    viberPhone: p?.viberPhone ?? DEFAULTS.viberPhone,
   };
 }
 

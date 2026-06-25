@@ -26,6 +26,8 @@ export const ClinicPayloadSchema = z.object({
   website: z.string().trim().min(1, "Вкажіть сайт"),
   contactsUrl: z.string().trim().min(1, "Вкажіть URL сторінки контактів"),
   mapsUrl: z.string().trim().min(1, "Вкажіть посилання на Google Maps"),
+  telegram: z.string().trim().optional().or(z.literal("")),
+  viberPhone: z.string().trim().optional().or(z.literal("")),
 });
 
 export type ClinicPayloadInput = z.infer<typeof ClinicPayloadSchema>;
