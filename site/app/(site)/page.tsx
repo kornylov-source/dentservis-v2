@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import HtmlSection from "@/components/HtmlSection";
 import WebflowInit from "@/components/WebflowInit";
 import DoctorsCarousel from "@/components/sections/DoctorsCarousel";
+import ServicesThree from "@/components/sections/ServicesThree";
 import TrustBar from "@/components/sections/TrustBar";
 import ReviewsSlider from "@/components/sections/ReviewsSlider";
 import { getDoctors } from "@/lib/data/doctors";
@@ -50,7 +51,7 @@ export default async function Page() {
       <HtmlSection file="header.html" />
       <HtmlSection file="hero.html" />
       <TrustBar stats={trustStats} />
-      <HtmlSection file="services-three.html" />
+      <ServicesThree />
       <HtmlSection file="about.html" />
       <DoctorsCarousel doctors={doctors} />
       <ReviewsSlider reviews={reviews} />
