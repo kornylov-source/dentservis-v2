@@ -2086,3 +2086,14 @@ select.select.w-select {
   color: var(--colors--gray--gray-50, #f5f5f5) !important;
   text-decoration: none !important;
 }
+
+/* ========== ДОГОВІР ОФЕРТИ: PDF-перегляд на мобільних ========== */
+/* iOS Safari у <iframe> показує лише першу сторінку багатосторінкового PDF
+   і не дає його гортати. Тому на телефонах ховаємо вбудований перегляд —
+   кнопка «Відкрити документ повністю» відкриває PDF у нативному переглядачі,
+   де всі сторінки гортаються нормально. На десктопі inline-перегляд лишається. */
+@media (max-width: 767px) {
+  .offer-pdf-frame {
+    display: none !important;
+  }
+}

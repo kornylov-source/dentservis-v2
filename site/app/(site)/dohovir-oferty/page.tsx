@@ -55,7 +55,24 @@ export default function PublicOfferPage() {
               «Дентсервіс». Документ наведено нижче для перегляду.
             </p>
 
+            <a
+              href="/dohovir-oferty.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="primary-button w-button offer-open-button"
+              style={{
+                display: "inline-block",
+                marginBottom: "20px",
+              }}
+            >
+              Відкрити документ повністю
+            </a>
+
+            {/* Inline preview: hidden on mobile because iOS Safari only renders
+                the first page of a PDF inside an iframe. On phones the button
+                above opens the full multi-page PDF in the native viewer. */}
             <div
+              className="offer-pdf-frame"
               style={{
                 position: "relative",
                 width: "100%",
