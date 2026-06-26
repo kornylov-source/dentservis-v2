@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin/auth";
 import { getServiceClient } from "@/lib/supabase/server";
+import { optimizeToWebp, IMAGE_MAX_WIDTH } from "@/lib/admin/optimize-image";
 import {
   DoctorPayloadSchema,
   SlugSchema,
@@ -157,13 +158,15 @@ export async function uploadDoctorPhoto(
   if (!okTypes.includes(file.type)) {
     return { ok: false, error: "Лише JPG, PNG або WEBP" };
   }
-  const ext =
-    file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+  const { buffer, ext, contentType } = await optimizeToWebp(
+    file,
+    IMAGE_MAX_WIDTH.doctor,
+  );
   const path = `doctors/${crypto.randomUUID()}.${ext}`;
   const sb = getServiceClient();
   const { error } = await sb.storage
     .from("media")
-    .upload(path, file, { contentType: file.type, upsert: false });
+    .upload(path, buffer, { contentType, upsert: false });
   if (error) return { ok: false, error: error.message };
   const { data } = sb.storage.from("media").getPublicUrl(path);
   return { ok: true, url: data.publicUrl };

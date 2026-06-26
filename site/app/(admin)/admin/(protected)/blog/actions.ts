@@ -6,6 +6,7 @@ import { getServiceClient } from "@/lib/supabase/server";
 import { SlugSchema, flattenZodError } from "@/lib/admin/schemas";
 import { BlogPostPayloadSchema } from "@/lib/admin/blog-schema";
 import { sanitizeArticleHtml } from "@/lib/admin/sanitize-html";
+import { optimizeToWebp, IMAGE_MAX_WIDTH } from "@/lib/admin/optimize-image";
 
 export type ActionResult =
   | { ok: true }
@@ -150,13 +151,15 @@ export async function uploadBlogImage(
   if (!okTypes.includes(file.type)) {
     return { ok: false, error: "Лише JPG, PNG або WEBP" };
   }
-  const ext =
-    file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+  const { buffer, ext, contentType } = await optimizeToWebp(
+    file,
+    IMAGE_MAX_WIDTH.blog,
+  );
   const path = `blog/${crypto.randomUUID()}.${ext}`;
   const sb = getServiceClient();
   const { error } = await sb.storage
     .from("media")
-    .upload(path, file, { contentType: file.type, upsert: false });
+    .upload(path, buffer, { contentType, upsert: false });
   if (error) return { ok: false, error: error.message };
   const { data } = sb.storage.from("media").getPublicUrl(path);
   return { ok: true, url: data.publicUrl };
